@@ -1,0 +1,36 @@
+$(document).ready(function() {
+    
+    // 1. Accordion Logic
+    $('.accordion-header').click(function() {
+        // Toggle the active state on the header
+        $(this).toggleClass('active');
+        
+        // Slide toggle the body relative to the clicked header
+        $(this).next('.accordion-body').slideToggle(300);
+        
+        // Rotate icon (Visual feedback)
+        let icon = $(this).find('.icon');
+        if ($(this).hasClass('active')) {
+            icon.text('-');
+        } else {
+            icon.text('+');
+        }
+    });
+
+    // 2. Safe Exit (Escape Key)
+    $(document).keyup(function(e) {
+        if (e.key === "Escape") {
+            window.location.href = "https://weather.com";
+        }
+    });
+
+    // 3. Smooth Scroll for Anchor Links
+    $('a[href^="#"]').on('click', function(e) {
+        e.preventDefault();
+        var target = this.hash;
+        var $target = $(target);
+        $('html, body').stop().animate({
+            'scrollTop': $target.offset().top - 50
+        }, 900, 'swing');
+    });
+});
