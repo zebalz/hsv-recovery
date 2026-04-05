@@ -3,385 +3,649 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Day 1: The Path to Radical Acceptance</title>
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;600;700&display=swap" rel="stylesheet">
-
+    <meta name="description" content="Just diagnosed with herpes? You're going to be okay. A calm, honest guide for your first 24 hours.">
+    <meta property="og:title" content="Day 1 — You're Going to Be Okay">
+    <meta property="og:description" content="A calm, honest guide for the first 24 hours after an HSV diagnosis.">
+    <meta property="og:type" content="website">
+    <title>Day 1</title>
+ 
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300;0,6..72,400;0,6..72,500;1,6..72,300;1,6..72,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+ 
     <style>
-        /* 
-           AESTHETIC: ADDYSAFE REPLICA
-           Fixed Gradient Mesh + Minimalist Text Overlay
-        */
         :root {
-            --text-white: #ffffff;
-            --text-dark: #2d1b38; /* Deep purple-black for contrast */
-            --glass-panel: rgba(255, 255, 255, 0.95);
-            --accent-pink: #ff6b9d;
-            --accent-blue: #4d94ff;
+            --font-display: 'Newsreader', Georgia, serif;
+            --font-body: 'DM Sans', -apple-system, sans-serif;
+            --purple: #a78bfa;
+            --pink: #f472b6;
+            --cyan: #22d3ee;
+            --pearl: #faf9f7;
+            --warm-white: #f5f3f0;
+            --text-primary: #1a1a1a;
+            --text-secondary: #5a5a5a;
+            --text-muted: #8a8a8a;
+            --border: #e8e5e0;
+            --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
         }
-
-        * { box-sizing: border-box; }
-
+ 
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+ 
         body {
-            font-family: 'Quicksand', sans-serif;
-            margin: 0;
-            padding: 0;
-            color: var(--text-white);
-            line-height: 1.8;
+            font-family: var(--font-body);
             font-weight: 400;
+            color: var(--text-primary);
+            background: var(--pearl);
+            line-height: 1.7;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
         }
-
-        /* 
-           THE BACKGROUND
-           Matches Image 1: Smooth Purple/Pink/Blue blurred gradient 
-           Fixed position so it stays while you scroll.
-        */
-       .gradient-bg {
+ 
+        /* SCROLL REVEAL */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.9s var(--ease-out), transform 0.9s var(--ease-out);
+        }
+        .reveal.visible { opacity: 1; transform: translateY(0); }
+        .stagger > .reveal:nth-child(1) { transition-delay: 0s; }
+        .stagger > .reveal:nth-child(2) { transition-delay: 0.12s; }
+        .stagger > .reveal:nth-child(3) { transition-delay: 0.24s; }
+        .stagger > .reveal:nth-child(4) { transition-delay: 0.36s; }
+        .stagger > .reveal:nth-child(5) { transition-delay: 0.48s; }
+ 
+        /* SAFE EXIT */
+        .safe-exit {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -1;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #ff9a9e 100%);
-            background-size: 200% 200%;
-            animation: gradientMove 15s ease infinite;
+            top: 20px;
+            right: 20px;
+            z-index: 100;
+            font-family: var(--font-body);
+            font-size: 0.75rem;
+            font-weight: 500;
+            letter-spacing: 0.04em;
+            color: var(--text-muted);
+            text-decoration: none;
+            padding: 8px 14px;
+            border: 1px solid var(--border);
+            border-radius: 100px;
+            background: rgba(250, 249, 247, 0.85);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            transition: all 0.3s ease;
         }
-
-        @keyframes gradientMove {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
-
-        /* LAYOUT */
-       .container {
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 0 20px;
-            position: relative;
-            z-index: 1;
-        }
-
-        /* HERO SECTION (Matches Image 1 typography) */
-       .hero {
-            min-height: 90vh; /* Full screen feel */
+        .safe-exit:hover { color: var(--text-primary); border-color: var(--text-muted); }
+ 
+        /* HERO */
+        .hero {
+            min-height: 100vh;
+            min-height: 100dvh;
             display: flex;
             flex-direction: column;
             justify-content: center;
+            align-items: center;
             text-align: center;
-            padding: 100px 0;
+            padding: 60px 24px;
+            position: relative;
+            overflow: hidden;
         }
-
-        h1 {
-            font-size: clamp(2.5rem, 5vw, 4.5rem);
-            font-weight: 300; /* Thin, elegant font */
-            margin-bottom: 20px;
-            text-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        .hero::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background:
+                radial-gradient(ellipse at 20% 50%, rgba(167, 139, 250, 0.15) 0%, transparent 60%),
+                radial-gradient(ellipse at 80% 30%, rgba(244, 114, 182, 0.12) 0%, transparent 55%),
+                radial-gradient(ellipse at 60% 80%, rgba(34, 211, 238, 0.08) 0%, transparent 50%);
+            z-index: 0;
         }
-
-       .subtitle {
-            font-size: 1.4rem;
-            font-weight: 600;
-            opacity: 0.9;
-            max-width: 600px;
-            margin: 0 auto 40px;
+        .hero-content { position: relative; z-index: 1; max-width: 600px; }
+ 
+        .hero-greeting {
+            font-family: var(--font-display);
+            font-weight: 300;
+            font-size: clamp(2.4rem, 6vw, 4.2rem);
+            line-height: 1.15;
+            letter-spacing: -0.02em;
+            color: var(--text-primary);
+            margin-bottom: 28px;
+            opacity: 0;
+            animation: fadeUp 1.2s var(--ease-out) 0.3s forwards;
         }
-
-       .hero-note {
+        .hero-sub {
+            font-family: var(--font-body);
             font-size: 1.1rem;
-            opacity: 0.8;
-            max-width: 500px;
-            margin: 0 auto;
+            font-weight: 300;
+            color: var(--text-secondary);
+            line-height: 1.8;
+            max-width: 440px;
+            margin: 0 auto 48px;
+            opacity: 0;
+            animation: fadeUp 1.2s var(--ease-out) 0.7s forwards;
         }
-
-        /* SECTION SEPARATORS (Matches "—— Note ——" style) */
-       .section-header {
+        .scroll-hint {
+            opacity: 0;
+            animation: fadeUp 1.2s var(--ease-out) 1.4s forwards;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+        }
+        .scroll-hint span {
+            font-size: 0.75rem;
+            font-weight: 400;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: var(--text-muted);
+        }
+        .scroll-line {
+            width: 1px;
+            height: 40px;
+            background: linear-gradient(to bottom, var(--text-muted), transparent);
+            animation: pulse 2s ease-in-out infinite;
+        }
+ 
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes pulse {
+            0%, 100% { opacity: 0.4; }
+            50% { opacity: 1; }
+        }
+ 
+        /* SECTIONS */
+        .section { padding: 100px 24px; max-width: 680px; margin: 0 auto; }
+        .section-wide { padding: 100px 24px; max-width: 880px; margin: 0 auto; }
+        .section-full { padding: 100px 24px; }
+ 
+        /* SEPARATOR */
+        .sep {
             display: flex;
             align-items: center;
             justify-content: center;
-            margin: 60px 0 40px;
-            color: var(--text-dark);
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            font-weight: 700;
-            font-size: 1rem;
+            gap: 16px;
+            margin-bottom: 60px;
         }
-       .section-header::before,.section-header::after {
-            content: "";
+        .sep::before, .sep::after {
+            content: '';
+            width: 40px;
             height: 1px;
-            width: 50px;
-            background: var(--text-dark);
-            margin: 0 20px;
-            opacity: 0.3;
+            background: var(--border);
         }
-
-        /* WHITE CONTENT PANEL (Matches Image 2) */
-       .content-panel {
-            background: var(--glass-panel);
-            color: var(--text-dark);
-            padding: 60px 40px;
-            border-radius: 4px; /* Slight rounding, mostly square */
-            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
-            margin-bottom: 100px;
+        .sep-label {
+            font-family: var(--font-body);
+            font-size: 0.7rem;
+            font-weight: 500;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            color: var(--text-muted);
         }
-
-        /* ACCORDION (Clean text style) */
-       .accordion-item {
-            border-bottom: 1px solid rgba(0,0,0,0.05);
-            padding: 20px 0;
+ 
+        /* PROSE */
+        .prose h2 {
+            font-family: var(--font-display);
+            font-weight: 400;
+            font-size: clamp(1.6rem, 3.5vw, 2.2rem);
+            line-height: 1.3;
+            letter-spacing: -0.015em;
+            margin-bottom: 24px;
+            color: var(--text-primary);
         }
-       .accordion-header {
+        .prose p {
+            font-size: 1.05rem;
+            font-weight: 300;
+            color: var(--text-secondary);
+            margin-bottom: 20px;
+            line-height: 1.8;
+        }
+        .prose p:last-child { margin-bottom: 0; }
+        .prose strong { font-weight: 500; color: var(--text-primary); }
+        .prose em { font-family: var(--font-display); font-style: italic; font-weight: 400; }
+ 
+        /* STATS */
+        .stat-band {
+            background: var(--warm-white);
+            border-top: 1px solid var(--border);
+            border-bottom: 1px solid var(--border);
+        }
+        .stat-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 48px;
+            max-width: 880px;
+            margin: 0 auto;
+            text-align: center;
+        }
+        .stat-item { padding: 20px 0; }
+        .stat-number {
+            font-family: var(--font-display);
+            font-size: 3.2rem;
+            font-weight: 300;
+            letter-spacing: -0.03em;
+            line-height: 1;
+            margin-bottom: 12px;
+            background: linear-gradient(135deg, var(--purple), var(--pink));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .stat-label {
+            font-size: 0.95rem;
+            font-weight: 400;
+            color: var(--text-secondary);
+            line-height: 1.5;
+        }
+ 
+        /* ACCORDION */
+        .accordion {
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            background: white;
+            overflow: hidden;
+        }
+        .accordion-item { border-bottom: 1px solid var(--border); }
+        .accordion-item:last-child { border-bottom: none; }
+        .accordion-trigger {
+            width: 100%;
+            background: none;
+            border: none;
+            font-family: var(--font-body);
+            font-size: 1.05rem;
+            font-weight: 500;
+            color: var(--text-primary);
+            text-align: left;
+            padding: 24px 28px;
             cursor: pointer;
-            font-weight: 700;
-            font-size: 1.2rem;
             display: flex;
             justify-content: space-between;
             align-items: center;
+            transition: background 0.2s ease;
         }
-       .accordion-header:hover { color: var(--accent-pink); }
-       .accordion-body {
-            display: none;
-            padding-top: 15px;
-            font-size: 1.05rem;
-            color: #555;
+        .accordion-trigger:hover { background: var(--warm-white); }
+        .accordion-icon {
+            font-size: 1.2rem;
+            font-weight: 300;
+            color: var(--text-muted);
+            transition: transform 0.3s var(--ease-out);
+            flex-shrink: 0;
+            margin-left: 16px;
         }
-
-        /* STATS (Minimalist) */
-       .stats-row {
-            display: flex;
-            justify-content: space-around;
-            text-align: center;
-            margin: 40px 0;
-            flex-wrap: wrap;
-            gap: 20px;
+        .accordion-item.open .accordion-icon { transform: rotate(45deg); }
+        .accordion-body {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s var(--ease-out);
         }
-       .stat-item strong {
-            display: block;
-            font-size: 3rem;
-            color: var(--accent-blue);
-            line-height: 1;
-            margin-bottom: 5px;
+        .accordion-body-inner {
+            padding: 0 28px 24px;
+            font-size: 1rem;
+            font-weight: 300;
+            color: var(--text-secondary);
+            line-height: 1.8;
         }
-
-        /* LANGUAGE TABLE */
-       .lang-table {
+ 
+        /* LANGUAGE SWAP TABLE */
+        .swap-table {
             width: 100%;
-            border-collapse: collapse;
-            margin-top: 30px;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            overflow: hidden;
+            background: white;
         }
-       .lang-table td {
-            padding: 15px;
-            border-bottom: 1px solid #eee;
+        .swap-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            border-bottom: 1px solid var(--border);
         }
-       .lang-bad { color: #aaa; text-decoration: line-through; }
-       .lang-good { color: var(--text-dark); font-weight: 700; }
-
-        /* PRODUCT LIST (Matches Image 2 "Supplements" list) */
-       .product-list {
-            list-style: none;
-            padding: 0;
-        }
-       .product-item {
-            margin-bottom: 30px;
-            padding-left: 20px;
-            border-left: 3px solid var(--accent-pink);
-        }
-       .product-title {
-            font-weight: 700;
-            font-size: 1.1rem;
-            display: block;
-            margin-bottom: 5px;
-        }
-       .product-desc {
-            font-size: 0.95rem;
-            color: #666;
-            margin-bottom: 10px;
-            display: block;
-        }
-       .product-link {
-            display: inline-block;
-            font-size: 0.85rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            color: var(--accent-blue);
-            text-decoration: none;
-            font-weight: 700;
-            border-bottom: 1px solid transparent;
-        }
-       .product-link:hover { border-bottom-color: var(--accent-blue); }
-
-        /* SAFE EXIT BUTTON */
-       .safe-exit {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            background: rgba(0,0,0,0.3);
+        .swap-row:last-child { border-bottom: none; }
+        .swap-head { background: var(--text-primary); }
+        .swap-head .swap-cell {
             color: white;
-            padding: 10px 20px;
-            border-radius: 30px;
-            text-decoration: none;
-            backdrop-filter: blur(5px);
-            font-size: 0.8rem;
-            z-index: 100;
-            transition: background 0.2s;
+            font-weight: 500;
+            font-size: 0.75rem;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
         }
-       .safe-exit:hover { background: rgba(0,0,0,0.6); }
-
-        /* FOOTER */
-        footer {
-            text-align: center;
-            padding: 50px 0;
+        .swap-cell { padding: 18px 24px; font-size: 0.95rem; }
+        .swap-cell:first-child { border-right: 1px solid var(--border); }
+        .swap-old { color: var(--text-muted); text-decoration: line-through; font-weight: 300; }
+        .swap-new { color: var(--text-primary); font-weight: 500; }
+ 
+        /* NEXT STEPS */
+        .next-steps {
+            background: var(--warm-white);
+            border-top: 1px solid var(--border);
+        }
+        .next-card {
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 32px;
+            transition: box-shadow 0.3s ease;
+        }
+        .next-card:hover { box-shadow: 0 8px 30px rgba(0,0,0,0.04); }
+        .next-card h3 {
+            font-family: var(--font-display);
+            font-weight: 400;
+            font-size: 1.2rem;
+            margin-bottom: 8px;
+            color: var(--text-primary);
+        }
+        .next-card p {
             font-size: 0.9rem;
-            opacity: 0.7;
+            font-weight: 300;
+            color: var(--text-secondary);
+            margin: 0;
+            line-height: 1.6;
+        }
+        .next-card-link {
+            display: inline-block;
+            margin-top: 16px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: var(--purple);
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+        .next-card-link:hover { color: var(--pink); }
+ 
+        /* CRISIS FOOTER */
+        .crisis-bar {
+            text-align: center;
+            padding: 48px 24px;
+            border-top: 1px solid var(--border);
+        }
+        .crisis-bar p { font-size: 0.9rem; color: var(--text-secondary); margin-bottom: 6px; }
+        .crisis-bar strong { font-weight: 600; color: var(--text-primary); }
+        .crisis-bar .disclaimer { font-size: 0.75rem; color: var(--text-muted); margin-top: 20px; }
+ 
+        /* RESPONSIVE */
+        @media (max-width: 600px) {
+            .section, .section-wide, .section-full { padding: 72px 20px; }
+            .stat-grid { gap: 32px; }
+            .swap-cell { padding: 14px 16px; font-size: 0.85rem; }
+            .accordion-trigger { padding: 20px 20px; font-size: 0.95rem; }
+            .accordion-body-inner { padding: 0 20px 20px; font-size: 0.9rem; }
+            .next-card { padding: 24px; }
         }
     </style>
 </head>
 <body>
-
-    <div class="gradient-bg"></div>
-    <a href="https://weather.com" class="safe-exit">Esc / Quick Exit</a>
-
-    <div class="container">
-        <header class="hero">
-            <p style="opacity: 0.8; margin-bottom:10px;">hi, this is your</p>
-            <h1>Day 1 Intervention.</h1>
-            <p class="subtitle">Breathe. The virus is inevitable, but the shame is optional.</p>
-            <p class="hero-note">
-                You are not "damaged goods." You are a person with a manageable skin condition. 
-                We will get through the next 24 hours together.
+ 
+    <a href="https://weather.com" class="safe-exit" id="safeExit">Exit</a>
+ 
+    <!-- HERO -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1 class="hero-greeting">Hey. You're going<br>to be okay.</h1>
+            <p class="hero-sub">
+                You just got some news that feels like the end of the world. It's not.
+                Take a breath. We're going to walk through this together.
             </p>
-        </header>
-    </div>
-
-    <div class="container">
-        <div class="content-panel">
-            
-            <div class="section-header">Phase I: Silence the Panic</div>
-            <p style="text-align:center; margin-bottom: 40px;">Your brain is lying to you right now. Let's dismantle the fear.</p>
-            
-            <div class="accordion">
-                <div class="accordion-item">
-                    <div class="accordion-header">
-                        I feel "dirty" and contaminated.
-                        <span>+</span>
-                    </div>
-                    <div class="accordion-body">
-                        You are not dirty. You are a <strong>viral host</strong>, just like 67% of the human population. A virus is a microscopic organism, not a moral judgment on your hygiene. Scrubbing won't help, but kindness will.
-                    </div>
-                </div>
-                <div class="accordion-item">
-                    <div class="accordion-header">
-                        No one will ever love me again.
-                        <span>+</span>
-                    </div>
-                    <div class="accordion-body">
-                        This is the "Damaged Goods" fallacy. In reality, HSV acts as a <strong>"jerk filter."</strong> Partners who reject you over a common skin condition lack the maturity for a long-term relationship. Thousands of people with HSV get married and have children every day.
-                    </div>
-                </div>
-                <div class="accordion-item">
-                    <div class="accordion-header">
-                        I ruined my life for a "mistake."
-                        <span>+</span>
-                    </div>
-                    <div class="accordion-body">
-                        Viruses do not screen for morality; they screen for contact. You didn't "slip up"; you existed in a human body. Forgive yourself immediately.
+            <div class="scroll-hint">
+                <span>Keep scrolling</span>
+                <div class="scroll-line"></div>
+            </div>
+        </div>
+    </section>
+ 
+    <!-- THE TRUTH -->
+    <section class="section prose">
+        <div class="sep reveal"><span class="sep-label">The truth</span></div>
+        <h2 class="reveal">This is one of the most<br>common things in medicine.</h2>
+        <p class="reveal">
+            Herpes simplex is carried by the majority of the human population. Most people
+            who have it don't know — because it often shows no symptoms at all. You didn't
+            do anything wrong. You existed in a human body.
+        </p>
+        <p class="reveal">
+            The stigma you're feeling right now? It was manufactured by a pharmaceutical company
+            in the 1970s to sell a new drug. Before that, nobody cared. The virus hasn't changed.
+            Society's story about it did.
+        </p>
+        <p class="reveal">
+            The panic you feel right now is temporary. The virus is manageable.
+            People with HSV get married, have children, build careers, and live
+            exactly the lives they were going to live before this diagnosis.
+        </p>
+    </section>
+ 
+    <!-- STATS -->
+    <section class="stat-band section-full">
+        <div class="sep reveal"><span class="sep-label">By the numbers</span></div>
+        <div class="stat-grid stagger">
+            <div class="stat-item reveal">
+                <div class="stat-number">3.7 billion</div>
+                <div class="stat-label">People worldwide carry HSV-1.<br>That's roughly half of everyone under 50.</div>
+            </div>
+            <div class="stat-item reveal">
+                <div class="stat-number">1 in 6</div>
+                <div class="stat-label">U.S. adults have genital herpes.<br>In a room of six, one has what you have.</div>
+            </div>
+            <div class="stat-item reveal">
+                <div class="stat-number">87%</div>
+                <div class="stat-label">Of people with HSV-2 are undiagnosed.<br>Most carriers have no idea.</div>
+            </div>
+        </div>
+    </section>
+ 
+    <!-- WHAT IT IS -->
+    <section class="section prose">
+        <div class="sep reveal"><span class="sep-label">What it actually is</span></div>
+        <h2 class="reveal">It's a skin condition.</h2>
+        <p class="reveal">
+            Genital herpes is biologically identical to a cold sore — the same virus
+            family, the same mechanism. The only difference is location. Since over
+            two-thirds of the global population carries HSV-1, you're experiencing
+            a common human condition in a slightly less common place.
+        </p>
+        <p class="reveal">
+            Most people have mild symptoms that decrease over time. Many never have
+            a second outbreak. The virus spends the vast majority of its time dormant —
+            essentially asleep. On the rare days it's active, there are often no
+            visible symptoms at all.
+        </p>
+        <p class="reveal">
+            It does not affect your immune system. It does not shorten your life.
+            It does not spread through toilet seats, towels, or hugging your children.
+            It requires direct skin-to-skin contact with the affected area.
+        </p>
+    </section>
+ 
+    <!-- COMMON FEARS -->
+    <section class="section">
+        <div class="sep reveal"><span class="sep-label">Common fears</span></div>
+        <div class="accordion reveal">
+            <div class="accordion-item">
+                <button class="accordion-trigger">
+                    <span>"No one will want to be with me."</span>
+                    <span class="accordion-icon">+</span>
+                </button>
+                <div class="accordion-body">
+                    <div class="accordion-body-inner">
+                        This is the most common fear on Day 1 — and the least true.
+                        Thousands of people with HSV are in loving relationships right now.
+                        Many partners, when educated about the actual risks, don't consider
+                        it a dealbreaker. The ones who do were probably not equipped for
+                        a mature relationship anyway. This diagnosis doesn't lower your
+                        value. It tests theirs.
                     </div>
                 </div>
             </div>
-
-            <div class="section-header">Phase II: The Medical Reality</div>
-            
-            <div class="stats-row">
-                <div class="stat-item">
-                    <strong>4%</strong>
-                    <span>Transmission Risk (Unprotected)</span>
-                </div>
-                <div class="stat-item">
-                    <strong>1 in 6</strong>
-                    <span>Adults Have It</span>
-                </div>
-                <div class="stat-item">
-                    <strong>&lt; 2%</strong>
-                    <span>Risk with Precautions</span>
+            <div class="accordion-item">
+                <button class="accordion-trigger">
+                    <span>"I feel dirty."</span>
+                    <span class="accordion-icon">+</span>
+                </button>
+                <div class="accordion-body">
+                    <div class="accordion-body-inner">
+                        That feeling is stigma, not reality. A virus is a microscopic
+                        organism that doesn't care about your character, your hygiene,
+                        or your choices. You could have contracted this from your first
+                        partner or your tenth. The virus doesn't discriminate — and neither
+                        should you, against yourself.
+                    </div>
                 </div>
             </div>
-
-            <p style="text-align: center; font-size: 0.9rem; color: #777; margin-top: 20px;">
-                *Stats reflect Female-to-Male yearly transmission rates.
-            </p>
-
-            <div class="section-header">Phase III: Change Your Language</div>
-            <p style="text-align:center; margin-bottom: 20px;">Stop pathologizing your body.</p>
-
-            <table class="lang-table">
-                <tr>
-                    <td class="lang-bad">"I am clean / dirty"</td>
-                    <td class="lang-good">"I am negative / positive"</td>
-                </tr>
-                <tr>
-                    <td class="lang-bad">"I have a disease"</td>
-                    <td class="lang-good">"I have a skin condition"</td>
-                </tr>
-                <tr>
-                    <td class="lang-bad">"I have to confess"</td>
-                    <td class="lang-good">"I want to share"</td>
-                </tr>
-            </table>
-
-            <div class="section-header">Phase IV: The "Day 0" Toolkit</div>
-            <p style="text-align:center; margin-bottom: 40px;">Regain control. These tools suppress outbreaks.</p>
-
-            <ul class="product-list">
-                <li class="product-item">
-                    <span class="product-title">L-Lysine Defense</span>
-                    <span class="product-desc">The essential amino acid that competes with Arginine (virus fuel). A daily staple for the community to keep the virus dormant.</span>
-                    <a href="#" class="product-link">Check Price on Amazon &rarr;</a>
-                </li>
-                <li class="product-item">
-                    <span class="product-title">5% Lidocaine Cream</span>
-                    <span class="product-desc">Numb the area instantly. Essential for sleeping through the first flare-up comfortably without pain.</span>
-                    <a href="#" class="product-link">View Options &rarr;</a>
-                </li>
-                <li class="product-item">
-                    <span class="product-title">Wisp / Roman (Telehealth)</span>
-                    <span class="product-desc">Get Valacyclovir (Valtrex) online discreetly. No waiting rooms, no awkward doctor conversations.</span>
-                    <a href="#" class="product-link">Start Consult &rarr;</a>
-                </li>
-                <li class="product-item">
-                    <span class="product-title">SPFPP Community</span>
-                    <span class="product-desc">Something Positive for Positive People. Hear hundreds of success stories from people just like you.</span>
-                    <a href="#" class="product-link">Listen to Podcast &rarr;</a>
-                </li>
-            </ul>
-
+            <div class="accordion-item">
+                <button class="accordion-trigger">
+                    <span>"Will I always feel this way?"</span>
+                    <span class="accordion-icon">+</span>
+                </button>
+                <div class="accordion-body">
+                    <div class="accordion-body-inner">
+                        No. What you're feeling right now is the peak. Day 1 is the worst
+                        day. By Day 30, the weight starts to lift. By Day 100, most people
+                        describe it as background noise. The virus stays, but the distress
+                        fades. You will not feel like this forever.
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <button class="accordion-trigger">
+                    <span>"Can I give this to my kids by hugging them?"</span>
+                    <span class="accordion-icon">+</span>
+                </button>
+                <div class="accordion-body">
+                    <div class="accordion-body-inner">
+                        No. HSV requires direct skin-to-skin contact with the specific
+                        affected area. It dies within seconds on surfaces. You can hug
+                        your children, share towels, use the same bathroom. Normal human
+                        contact is completely safe.
+                    </div>
+                </div>
+            </div>
         </div>
-    </div>
-
-    <footer>
-        <div class="container">
-            <p><strong>Need Help Now?</strong> Text HOME to 741741 (Crisis Text Line)</p>
-            <p style="font-size: 0.8rem; margin-top: 20px;">
-                Disclaimer: We are reader-supported. This is educational content, not medical advice.
-            </p>
+    </section>
+ 
+    <!-- WHAT TO DO NOW -->
+    <section class="section prose">
+        <div class="sep reveal"><span class="sep-label">Right now</span></div>
+        <h2 class="reveal">Here's what to do today.</h2>
+        <p class="reveal">
+            <strong>Talk to your doctor about antivirals.</strong>
+            Valacyclovir is a once-daily pill that suppresses the virus and dramatically
+            reduces outbreaks and transmission risk. If you don't want to see a doctor
+            face-to-face, telehealth services can prescribe it remotely and ship it discreetly.
+        </p>
+        <p class="reveal">
+            <strong>If you're in physical pain,</strong>
+            over-the-counter lidocaine cream (5%) applied to the area provides immediate
+            relief. Loose clothing, ibuprofen, and warm baths with epsom salt also help.
+            This passes.
+        </p>
+        <p class="reveal">
+            <strong>Don't Google for the next three hours.</strong>
+            Seriously. The internet is full of outdated horror stories and forum posts from 2009.
+            The medical reality has changed. You've read enough for today. Close the other tabs.
+        </p>
+        <p class="reveal">
+            <strong>Tell one person.</strong>
+            Not the world — just one safe person. A friend, a sibling, a therapist.
+            Shame lives in secrecy. The moment you say it out loud to someone who loves you,
+            the weight halves.
+        </p>
+    </section>
+ 
+    <!-- LANGUAGE SWAP -->
+    <section class="section">
+        <div class="sep reveal"><span class="sep-label">Words matter</span></div>
+        <div class="prose reveal" style="margin-bottom: 32px;">
+            <h2>Change how you talk about this.</h2>
+            <p>The language around herpes was designed to scare people. You don't have to use it.</p>
         </div>
+        <div class="swap-table reveal">
+            <div class="swap-row swap-head">
+                <div class="swap-cell">Stop saying</div>
+                <div class="swap-cell">Start saying</div>
+            </div>
+            <div class="swap-row">
+                <div class="swap-cell swap-old">"I'm clean" / "I'm dirty"</div>
+                <div class="swap-cell swap-new">"I'm negative" / "I'm positive"</div>
+            </div>
+            <div class="swap-row">
+                <div class="swap-cell swap-old">"I have a disease"</div>
+                <div class="swap-cell swap-new">"I have a skin condition"</div>
+            </div>
+            <div class="swap-row">
+                <div class="swap-cell swap-old">"I'm having an outbreak"</div>
+                <div class="swap-cell swap-new">"I'm having a flare-up"</div>
+            </div>
+            <div class="swap-row">
+                <div class="swap-cell swap-old">"I need to confess"</div>
+                <div class="swap-cell swap-new">"I want to share something"</div>
+            </div>
+            <div class="swap-row">
+                <div class="swap-cell swap-old">"I'm a herpes sufferer"</div>
+                <div class="swap-cell swap-new">"I'm a person with HSV"</div>
+            </div>
+        </div>
+    </section>
+ 
+    <!-- WHEN YOU'RE READY -->
+    <section class="next-steps section-wide">
+        <div class="sep reveal"><span class="sep-label">When you're ready</span></div>
+        <div class="prose reveal" style="text-align: center; margin-bottom: 48px; max-width: 540px; margin-left: auto; margin-right: auto;">
+            <h2>This is enough for today.</h2>
+            <p>Bookmark this page. When the initial shock passes, these guides will be here.</p>
+        </div>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 20px; max-width: 880px; margin: 0 auto;" class="stagger">
+            <div class="next-card reveal">
+                <h3>Telling a partner</h3>
+                <p>Scripts, timing, and how to have the conversation without fear.</p>
+                <a href="/guides/disclosure" class="next-card-link">Read guide →</a>
+            </div>
+            <div class="next-card reveal">
+                <h3>Understanding transmission</h3>
+                <p>The real numbers. How risk works, how to reduce it, what "shedding" means.</p>
+                <a href="/guides/transmission" class="next-card-link">Read guide →</a>
+            </div>
+            <div class="next-card reveal">
+                <h3>Treatment options</h3>
+                <p>Antivirals, supplements, and what actually works — explained without jargon.</p>
+                <a href="/resources" class="next-card-link">View resources →</a>
+            </div>
+        </div>
+    </section>
+ 
+    <!-- CRISIS FOOTER -->
+    <footer class="crisis-bar">
+        <p><strong>Need to talk to someone right now?</strong></p>
+        <p>Text <strong>HOME</strong> to <strong>741741</strong> — free, confidential, 24/7.</p>
+        <p>Call <strong>988</strong> for the Suicide & Crisis Lifeline. Your pain is valid.</p>
+        <p class="disclaimer">This is educational content, not medical advice. For diagnosis and treatment, consult a healthcare provider.</p>
     </footer>
-
+ 
+    <!-- JS — zero dependencies -->
     <script>
-        $(document).ready(function() {
-            // Simple Accordion Logic
-            $('.accordion-header').click(function() {
-                $(this).next('.accordion-body').slideToggle(300);
-                let icon = $(this).find('span');
-                icon.text(icon.text() == '+'? '-' : '+');
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) entry.target.classList.add('visible');
             });
-
-            // Safe Exit
-            $(document).keyup(function(e) {
-                if (e.key === "Escape") {
-                    window.location.href = "https://weather.com";
+        }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+ 
+        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+ 
+        document.querySelectorAll('.accordion-trigger').forEach(trigger => {
+            trigger.addEventListener('click', () => {
+                const item = trigger.parentElement;
+                const body = trigger.nextElementSibling;
+                const isOpen = item.classList.contains('open');
+                document.querySelectorAll('.accordion-item').forEach(i => {
+                    i.classList.remove('open');
+                    i.querySelector('.accordion-body').style.maxHeight = null;
+                });
+                if (!isOpen) {
+                    item.classList.add('open');
+                    body.style.maxHeight = body.scrollHeight + 'px';
                 }
             });
+        });
+ 
+        document.addEventListener('keyup', (e) => {
+            if (e.key === 'Escape') window.location.href = 'https://weather.com';
         });
     </script>
 </body>
