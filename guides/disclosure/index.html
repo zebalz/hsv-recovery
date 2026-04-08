@@ -3,250 +3,782 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Disclosure Guide</title>
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <meta name="description" content="How to tell someone you have herpes. Real scripts, timing advice, and strategies for text and in-person disclosure — from people who've done it.">
+    <meta property="og:title" content="Telling a Partner — The Disclosure Guide">
+    <meta property="og:description" content="Copy-paste scripts, timing strategy, and how to handle rejection. A guide built from lived experience.">
+    <meta property="og:type" content="article">
+    <title>Telling a Partner — The Disclosure Guide</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300;0,6..72,400;0,6..72,500;1,6..72,300;1,6..72,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 
     <style>
-        /*
-           AESTHETIC: ADDYSAFE REPLICA
-           Fixed Gradient Mesh + Minimalist Text Overlay
-        */
         :root {
-            --text-white: #ffffff;
-            --text-dark: #2d1b38; /* Deep purple-black for contrast */
-            --glass-panel: rgba(255, 255, 255, 0.95);
-            --accent-pink: #ff6b9d;
-            --accent-blue: #4d94ff;
+            --font-display: 'Newsreader', Georgia, serif;
+            --font-body: 'DM Sans', -apple-system, sans-serif;
+            --purple: #a78bfa;
+            --pink: #f472b6;
+            --cyan: #22d3ee;
+            --pearl: #faf9f7;
+            --warm-white: #f5f3f0;
+            --text-primary: #1a1a1a;
+            --text-secondary: #5a5a5a;
+            --text-muted: #8a8a8a;
+            --border: #e8e5e0;
+            --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
         }
 
-        * { box-sizing: border-box; }
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
 
         body {
-            font-family: 'Quicksand', sans-serif;
-            margin: 0;
-            padding: 0;
-            color: var(--text-white);
-            line-height: 1.8;
+            font-family: var(--font-body);
             font-weight: 400;
+            color: var(--text-primary);
+            background: var(--pearl);
+            line-height: 1.7;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
         }
 
-        /*
-           THE BACKGROUND
-           Matches Image 1: Smooth Purple/Pink/Blue blurred gradient
-           Fixed position so it stays while you scroll.
-        */
-       .gradient-bg {
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            z-index: -1;
+            background:
+                radial-gradient(ellipse at 20% 50%, rgba(167, 139, 250, 0.15) 0%, transparent 60%),
+                radial-gradient(ellipse at 80% 30%, rgba(244, 114, 182, 0.12) 0%, transparent 55%),
+                radial-gradient(ellipse at 60% 80%, rgba(34, 211, 238, 0.08) 0%, transparent 50%);
+            pointer-events: none;
+        }
+
+        /* SCROLL REVEAL */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 1.6s var(--ease-out), transform 1.6s var(--ease-out);
+        }
+        .reveal.visible { opacity: 1; transform: translateY(0); }
+
+        /* NAV */
+        .top-nav {
             position: fixed;
             top: 0;
             left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -1;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #ff9a9e 100%);
-            background-size: 200% 200%;
-            animation: gradientMove 15s ease infinite;
-        }
-
-        @keyframes gradientMove {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
-
-        /* LAYOUT */
-       .container {
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 0 20px;
-            position: relative;
-            z-index: 1;
-        }
-
-        /* HERO SECTION (Matches Image 1 typography) */
-       .hero {
-            min-height: 90vh; /* Full screen feel */
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            text-align: center;
-            padding: 100px 0;
-        }
-
-        h1 {
-            font-size: clamp(2.5rem, 5vw, 4.5rem);
-            font-weight: 300; /* Thin, elegant font */
-            margin-bottom: 20px;
-            text-shadow: 0 4px 10px rgba(0,0,0,0.1);
-        }
-
-       .subtitle {
-            font-size: 1.4rem;
-            font-weight: 600;
-            opacity: 0.9;
-            max-width: 600px;
-            margin: 0 auto 40px;
-        }
-
-       .hero-note {
-            font-size: 1.1rem;
-            opacity: 0.8;
-            max-width: 500px;
-            margin: 0 auto;
-        }
-
-        /* SECTION SEPARATORS (Matches "—— Note ——" style) */
-       .section-header {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 60px 0 40px;
-            color: var(--text-dark);
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            font-weight: 700;
-            font-size: 1rem;
-        }
-       .section-header::before,.section-header::after {
-            content: "";
-            height: 1px;
-            width: 50px;
-            background: var(--text-dark);
-            margin: 0 20px;
-            opacity: 0.3;
-        }
-
-        /* WHITE CONTENT PANEL (Matches Image 2) */
-       .content-panel {
-            background: var(--glass-panel);
-            color: var(--text-dark);
-            padding: 60px 40px;
-            border-radius: 4px; /* Slight rounding, mostly square */
-            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
-            margin-bottom: 100px;
-        }
-
-        /* ACCORDION (Clean text style) */
-       .accordion-item {
-            border-bottom: 1px solid rgba(0,0,0,0.05);
-            padding: 20px 0;
-        }
-       .accordion-header {
-            cursor: pointer;
-            font-weight: 700;
-            font-size: 1.2rem;
+            right: 0;
+            z-index: 100;
             display: flex;
             justify-content: space-between;
             align-items: center;
+            padding: 16px 24px;
+            background: rgba(250, 249, 247, 0.85);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
         }
-       .accordion-header:hover { color: var(--accent-pink); }
-       .accordion-body {
-            display: none;
-            padding-top: 15px;
-            font-size: 1.05rem;
-            color: #555;
+        .nav-back {
+            font-family: var(--font-body);
+            font-size: 0.8rem;
+            font-weight: 500;
+            color: var(--text-muted);
+            text-decoration: none;
+            transition: color 0.2s;
         }
+        .nav-back:hover { color: var(--text-primary); }
+        .safe-exit {
+            font-family: var(--font-body);
+            font-size: 0.75rem;
+            font-weight: 500;
+            letter-spacing: 0.04em;
+            color: var(--text-muted);
+            text-decoration: none;
+            padding: 8px 14px;
+            border: 1px solid var(--border);
+            border-radius: 100px;
+            transition: all 0.3s ease;
+        }
+        .safe-exit:hover { color: var(--text-primary); border-color: var(--text-muted); }
 
-        /* STATS (Minimalist) */
-       .stats-row {
-            display: flex;
-            justify-content: space-around;
+        /* HERO */
+        .hero {
+            padding: 160px 24px 100px;
             text-align: center;
-            margin: 40px 0;
-            flex-wrap: wrap;
-            gap: 20px;
+            max-width: 680px;
+            margin: 0 auto;
         }
-       .stat-item strong {
+        .hero-label {
+            font-family: var(--font-body);
+            font-size: 0.7rem;
+            font-weight: 500;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            margin-bottom: 24px;
+            opacity: 0;
+            animation: fadeUp 1.2s var(--ease-out) 0.2s forwards;
+        }
+        .hero h1 {
+            font-family: var(--font-display);
+            font-weight: 300;
+            font-size: clamp(2rem, 5vw, 3.4rem);
+            line-height: 1.15;
+            letter-spacing: -0.02em;
+            color: var(--text-primary);
+            margin-bottom: 24px;
+            opacity: 0;
+            animation: fadeUp 1.2s var(--ease-out) 0.4s forwards;
+        }
+        .hero-sub {
+            font-size: 1.1rem;
+            font-weight: 300;
+            color: var(--text-secondary);
+            line-height: 1.8;
+            max-width: 500px;
+            margin: 0 auto;
+            opacity: 0;
+            animation: fadeUp 1.2s var(--ease-out) 0.7s forwards;
+        }
+
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* SECTIONS */
+        .section { padding: 80px 24px; max-width: 680px; margin: 0 auto; }
+
+        /* SEPARATOR */
+        .sep {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 16px;
+            margin-bottom: 60px;
+        }
+        .sep-label {
+            font-family: var(--font-body);
+            font-size: 0.7rem;
+            font-weight: 500;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            color: var(--text-muted);
+        }
+
+        /* PROSE */
+        .prose h2 {
+            font-family: var(--font-display);
+            font-weight: 400;
+            font-size: clamp(1.5rem, 3vw, 2rem);
+            line-height: 1.3;
+            letter-spacing: -0.015em;
+            margin-bottom: 24px;
+            color: var(--text-primary);
+        }
+        .prose h3 {
+            font-family: var(--font-display);
+            font-weight: 400;
+            font-size: 1.3rem;
+            margin-top: 48px;
+            margin-bottom: 16px;
+            color: var(--text-primary);
+        }
+        .prose p {
+            font-size: 1.05rem;
+            font-weight: 300;
+            color: var(--text-secondary);
+            margin-bottom: 20px;
+            line-height: 1.8;
+        }
+        .prose p:last-child { margin-bottom: 0; }
+        .prose strong { font-weight: 500; color: var(--text-primary); }
+        .prose em { font-family: var(--font-display); font-style: italic; }
+
+        /* SCRIPT BLOCKS */
+        .script-block {
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 32px;
+            margin: 32px 0;
+            position: relative;
+        }
+        .script-label {
+            font-size: 0.7rem;
+            font-weight: 600;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            margin-bottom: 16px;
             display: block;
-            font-size: 3rem;
-            color: var(--accent-blue);
-            line-height: 1;
-            margin-bottom: 5px;
+        }
+        .script-text {
+            font-family: var(--font-display);
+            font-size: 1.05rem;
+            font-weight: 400;
+            font-style: italic;
+            color: var(--text-primary);
+            line-height: 1.8;
+        }
+        .script-note {
+            font-family: var(--font-body);
+            font-size: 0.85rem;
+            font-weight: 300;
+            font-style: normal;
+            color: var(--text-muted);
+            margin-top: 16px;
+            padding-top: 16px;
+            border-top: 1px solid var(--border);
         }
 
-        /* LANGUAGE TABLE */
-       .lang-table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 30px;
+        /* COMPARISON BLOCKS */
+        .compare-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin: 32px 0;
         }
-       .lang-table td {
-            padding: 15px;
-            border-bottom: 1px solid #eee;
+        .compare-card {
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 28px;
         }
-       .lang-bad { color: #aaa; text-decoration: line-through; }
-       .lang-good { color: var(--text-dark); font-weight: 700; }
-
-        /* PRODUCT LIST (Matches Image 2 "Supplements" list) */
-       .product-list {
+        .compare-card h4 {
+            font-family: var(--font-body);
+            font-size: 0.95rem;
+            font-weight: 600;
+            margin-bottom: 12px;
+            color: var(--text-primary);
+        }
+        .compare-card p {
+            font-size: 0.9rem;
+            font-weight: 300;
+            color: var(--text-secondary);
+            line-height: 1.6;
+            margin: 0;
+        }
+        .compare-card ul {
             list-style: none;
             padding: 0;
+            margin: 0;
         }
-       .product-item {
-            margin-bottom: 30px;
-            padding-left: 20px;
-            border-left: 3px solid var(--accent-pink);
-        }
-       .product-title {
-            font-weight: 700;
-            font-size: 1.1rem;
-            display: block;
-            margin-bottom: 5px;
-        }
-       .product-desc {
-            font-size: 0.95rem;
-            color: #666;
-            margin-bottom: 10px;
-            display: block;
-        }
-       .product-link {
-            display: inline-block;
-            font-size: 0.85rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            color: var(--accent-blue);
-            text-decoration: none;
-            font-weight: 700;
-            border-bottom: 1px solid transparent;
-        }
-       .product-link:hover { border-bottom-color: var(--accent-blue); }
-
-        /* SAFE EXIT BUTTON */
-       .safe-exit {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            background: rgba(0,0,0,0.3);
-            color: white;
-            padding: 10px 20px;
-            border-radius: 30px;
-            text-decoration: none;
-            backdrop-filter: blur(5px);
-            font-size: 0.8rem;
-            z-index: 100;
-            transition: background 0.2s;
-        }
-       .safe-exit:hover { background: rgba(0,0,0,0.6); }
-
-        /* FOOTER */
-        footer {
-            text-align: center;
-            padding: 50px 0;
+        .compare-card li {
             font-size: 0.9rem;
-            opacity: 0.7;
+            font-weight: 300;
+            color: var(--text-secondary);
+            line-height: 1.6;
+            padding: 6px 0;
+        }
+        .compare-card li::before {
+            content: '→ ';
+            color: var(--text-muted);
+        }
+
+        /* CALLOUT */
+        .callout {
+            background: var(--warm-white);
+            border-radius: 12px;
+            padding: 28px 32px;
+            margin: 32px 0;
+        }
+        .callout p {
+            font-size: 0.95rem;
+            margin-bottom: 12px;
+        }
+        .callout p:last-child { margin-bottom: 0; }
+
+        /* ACCORDION */
+        .accordion {
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            background: white;
+            overflow: hidden;
+            margin: 32px 0;
+        }
+        .accordion-item { border-bottom: 1px solid var(--border); }
+        .accordion-item:last-child { border-bottom: none; }
+        .accordion-trigger {
+            width: 100%;
+            background: none;
+            border: none;
+            font-family: var(--font-body);
+            font-size: 1rem;
+            font-weight: 500;
+            color: var(--text-primary);
+            text-align: left;
+            padding: 22px 28px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: background 0.2s ease;
+        }
+        .accordion-trigger:hover { background: var(--warm-white); }
+        .accordion-icon {
+            font-size: 1.2rem;
+            font-weight: 300;
+            color: var(--text-muted);
+            transition: transform 0.3s var(--ease-out);
+            flex-shrink: 0;
+            margin-left: 16px;
+        }
+        .accordion-item.open .accordion-icon { transform: rotate(45deg); }
+        .accordion-body {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s var(--ease-out);
+        }
+        .accordion-body-inner {
+            padding: 0 28px 24px;
+            font-size: 0.95rem;
+            font-weight: 300;
+            color: var(--text-secondary);
+            line-height: 1.8;
+        }
+
+        /* NEXT GUIDE LINK */
+        .next-guide {
+            text-align: center;
+            padding: 80px 24px;
+            background: var(--warm-white);
+        }
+        .next-guide p {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            margin-bottom: 12px;
+        }
+        .next-guide a {
+            font-family: var(--font-display);
+            font-size: 1.3rem;
+            font-weight: 400;
+            color: var(--purple);
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+        .next-guide a:hover { color: var(--pink); }
+
+        /* CRISIS FOOTER */
+        .crisis-bar {
+            text-align: center;
+            padding: 48px 24px;
+        }
+        .crisis-bar p { font-size: 0.9rem; color: var(--text-secondary); margin-bottom: 6px; }
+        .crisis-bar strong { font-weight: 600; color: var(--text-primary); }
+        .crisis-bar .disclaimer { font-size: 0.75rem; color: var(--text-muted); margin-top: 20px; }
+
+        /* RESPONSIVE */
+        @media (max-width: 600px) {
+            .section { padding: 60px 20px; }
+            .hero { padding: 140px 20px 72px; }
+            .compare-grid { grid-template-columns: 1fr; }
+            .script-block { padding: 24px; }
+            .accordion-trigger { padding: 18px 20px; font-size: 0.95rem; }
+            .accordion-body-inner { padding: 0 20px 20px; }
         }
     </style>
 </head>
 <body>
 
-    <div class="gradient-bg"></div>
-    <a href="https://weather.com" class="safe-exit">Esc / Quick Exit</a>
+    <!-- NAV -->
+    <nav class="top-nav">
+        <a href="/" class="nav-back">← Day 1</a>
+        <a href="https://weather.com" class="safe-exit">Exit</a>
+    </nav>
 
-    <div class="container">
-        <header class="hero">
-            <h1>Disclosure Guide</h1>
-        </header>
+    <!-- HERO -->
+    <header class="hero">
+        <div class="hero-label">Guide</div>
+        <h1>Telling a partner.</h1>
+        <p class="hero-sub">
+            This is the conversation you're dreading. It doesn't have to go the way you think.
+            Here's how real people do it — with scripts you can actually use.
+        </p>
+    </header>
+
+    <!-- THE REFRAME -->
+    <section class="section prose">
+        <div class="sep reveal"><span class="sep-label">The reframe</span></div>
+
+        <h2 class="reveal">This is not a confession.</h2>
+
+        <p class="reveal">
+            The word "confession" implies guilt. You didn't commit a crime. You contracted
+            a virus that the majority of sexually active adults carry in some form. What
+            you're about to do isn't confessing — it's <em>sharing</em>. It's inviting someone
+            into a conversation about sexual health that most people never have the courage
+            to initiate.
+        </p>
+        <p class="reveal">
+            Here's what nobody tells you: <strong>most disclosures go fine.</strong> The horror
+            stories dominate forums because people don't post about the time their partner
+            said "okay, thanks for telling me" and then they ordered dinner. That happens
+            far more often than the internet suggests.
+        </p>
+        <p class="reveal">
+            The way you deliver this information shapes how it's received. If you treat it
+            like a death sentence, they will too. If you present it as a manageable fact
+            of your biology — which it is — most people will meet you there.
+        </p>
+    </section>
+
+    <!-- TIMING -->
+    <section class="section prose">
+        <div class="sep reveal"><span class="sep-label">Timing</span></div>
+
+        <h2 class="reveal">When to have the conversation.</h2>
+
+        <p class="reveal">
+            <strong>Not on the first date.</strong> You don't owe your medical history to a stranger
+            over appetizers. You're still deciding if you even like this person.
+        </p>
+        <p class="reveal">
+            <strong>Not in the heat of the moment.</strong> Never disclose when clothes are
+            already coming off. The pressure to perform and the fear of killing the mood
+            will compromise both of your ability to process the information clearly.
+        </p>
+        <p class="reveal">
+            <strong>The window:</strong> After you've established genuine interest but before
+            any sexual contact. For most people, that's somewhere between the second and
+            fourth date — once you know there's real potential, but before physical
+            intimacy is on the table. You want them invested enough to listen, but not so
+            invested that they feel deceived.
+        </p>
+    </section>
+
+    <!-- TEXT VS IN-PERSON -->
+    <section class="section prose">
+        <div class="sep reveal"><span class="sep-label">The method</span></div>
+
+        <h2 class="reveal">Text or in person?</h2>
+
+        <p class="reveal">
+            This is the most debated question in the community. Both work.
+            The right choice depends on you, the other person, and the situation.
+        </p>
+
+        <div class="compare-grid reveal">
+            <div class="compare-card">
+                <h4>Text message</h4>
+                <ul>
+                    <li>Removes the pressure of face-to-face reaction</li>
+                    <li>Gives them space to process privately</li>
+                    <li>Lets them research on their own time</li>
+                    <li>Prevents performative acceptance followed by ghosting</li>
+                    <li>Easier if you're still building confidence</li>
+                </ul>
+            </div>
+            <div class="compare-card">
+                <h4>In person</h4>
+                <ul>
+                    <li>Lets you project calm confidence with body language</li>
+                    <li>You can answer questions in real time</li>
+                    <li>Prevents the text from reading more severe than reality</li>
+                    <li>Builds deeper trust through vulnerability</li>
+                    <li>Requires more emotional fortitude</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="callout reveal">
+            <p><strong>The community consensus:</strong> If you're early in dating someone
+            from an app, text first. If you're already emotionally close — a friend
+            turning into something more, or someone you've been seeing regularly — do
+            it in person. The medium matters less than the energy you bring to it.</p>
+        </div>
+    </section>
+
+    <!-- SCRIPTS -->
+    <section class="section prose">
+        <div class="sep reveal"><span class="sep-label">The scripts</span></div>
+
+        <h2 class="reveal">What to actually say.</h2>
+
+        <p class="reveal">
+            These aren't clinical templates. They're adapted from real disclosures
+            that worked — sourced from community forums, support groups, and
+            people who've done this dozens of times. Adjust the tone to match
+            your voice, but the structure holds.
+        </p>
+
+        <div class="script-block reveal">
+            <span class="script-label">Text — casual dating / apps</span>
+            <div class="script-text">
+                "Hey — I've really been enjoying getting to know you. Before things go
+                further, I want to be upfront about something. I carry the virus that causes
+                cold sores / herpes. I take daily medication that makes the transmission
+                risk extremely low. I'm happy to answer any questions, and I completely
+                understand if this changes things for you."
+            </div>
+            <div class="script-note">
+                Keep it short. Don't over-explain or apologize. The phrase "I completely
+                understand" gives them permission to exit without guilt, which paradoxically
+                makes them more likely to stay.
+            </div>
+        </div>
+
+        <div class="script-block reveal">
+            <span class="script-label">Text — someone you're more invested in</span>
+            <div class="script-text">
+                "I want to share something with you because I respect you and I think
+                what we have is worth being honest about. I have HSV — it's the virus
+                that causes herpes. Practically, that means I take a daily antiviral and
+                the risk of transmission is very low. Emotionally, it means I trust you
+                enough to have this conversation. Take whatever time you need with this."
+            </div>
+            <div class="script-note">
+                The "I trust you enough" framing positions disclosure as an act of
+                intimacy, not a warning label. It reframes you from supplicant to
+                someone choosing vulnerability.
+            </div>
+        </div>
+
+        <div class="script-block reveal">
+            <span class="script-label">In person — the structure</span>
+            <div class="script-text">
+                Pick a calm, private setting — not a restaurant, not a car. Somewhere
+                you can both leave comfortably if needed. Start with something like:
+                "There's something I want to share with you before we take the physical
+                side of this further." Then state the facts plainly. Name the virus.
+                State that you're on medication. State the transmission statistics if
+                you know them. Then stop talking and let them respond.
+            </div>
+            <div class="script-note">
+                The most common mistake in person is filling the silence. After you've
+                said what you need to say, let them sit with it. Silence doesn't mean
+                rejection — it means they're processing. Give them room.
+            </div>
+        </div>
+
+        <div class="script-block reveal">
+            <span class="script-label">If they ask: "Can I catch it?"</span>
+            <div class="script-text">
+                "Yes, there's always some risk — but it's lower than most people think.
+                With daily antivirals and condoms, the annual transmission rate is around
+                1-2% for most couples. That's lower than the risk of a lot of things
+                people don't think twice about. I can send you some links if you want
+                to read the actual data."
+            </div>
+            <div class="script-note">
+                Offering to send links does two things: it shows you've done your homework,
+                and it gives them a way to research privately without having to ask you
+                uncomfortable questions face-to-face.
+            </div>
+        </div>
+    </section>
+
+    <!-- HSV-1 QUESTION -->
+    <section class="section prose">
+        <div class="sep reveal"><span class="sep-label">The gray area</span></div>
+
+        <h2 class="reveal">Do I have to disclose oral HSV-1?</h2>
+
+        <p class="reveal">
+            This is one of the most contested questions in the community, and there's
+            no universal answer.
+        </p>
+        <p class="reveal">
+            The medical reality: somewhere between 50-80% of adults carry oral HSV-1.
+            Most contracted it as children through family contact. The CDC actively
+            advises against routine HSV blood screening because of the psychological
+            harm of diagnosis and high false-positive rates. Most people who have it
+            don't know and have never been asked to disclose.
+        </p>
+        <p class="reveal">
+            The ethical reality: if you know your status, you hold information that
+            your partner doesn't have. Some people believe that any known transmissible
+            status should be shared. Others argue that disclosing an almost-universal
+            virus creates disproportionate stigma for the discloser.
+        </p>
+        <p class="reveal">
+            <strong>Where most people land:</strong> If there's any chance of oral-to-genital
+            contact, disclosure is the right call — because while you might see it as
+            "just a cold sore," your partner receiving a genital HSV-1 diagnosis will
+            carry a stigma burden that doesn't match the biology. That asymmetry matters.
+        </p>
+    </section>
+
+    <!-- HANDLING REJECTION -->
+    <section class="section prose">
+        <div class="sep reveal"><span class="sep-label">If it goes wrong</span></div>
+
+        <h2 class="reveal">Handling rejection.</h2>
+
+        <p class="reveal">
+            It will happen. Maybe not the first time, maybe not the fifth. But at
+            some point, someone will say no. That's their right. It doesn't mean
+            you're unlovable. It means that person, at that moment, wasn't ready.
+        </p>
+        <p class="reveal">
+            <strong>The ghost.</strong> They stop responding. No explanation. This is
+            the most common form of rejection from app-based dating. It stings
+            precisely because there's no closure. What helps: remind yourself that
+            ghosting says more about their communication capacity than your worth.
+            Someone who can't handle a mature health conversation wasn't going to
+            handle the harder parts of a relationship either.
+        </p>
+        <p class="reveal">
+            <strong>The cruelty.</strong> Rare, but it happens. Someone says something
+            cutting, makes you feel contaminated. This is a reflection of their ignorance
+            and fear, not your reality. Block, delete, grieve briefly, and move on.
+            You just filtered out someone who would've been terrible for you.
+        </p>
+        <p class="reveal">
+            <strong>The "let me think about it."</strong> This is actually a good sign.
+            It means they're taking it seriously. Give them space. Don't chase. If they
+            come back with questions, answer them calmly. If they come back with a no,
+            respect it. If they don't come back at all, you have your answer.
+        </p>
+    </section>
+
+    <!-- DATING APPS -->
+    <section class="section">
+        <div class="sep reveal"><span class="sep-label">Dating apps</span></div>
+
+        <div class="prose reveal" style="margin-bottom: 24px;">
+            <h2>Disclosing on apps without getting banned.</h2>
+            <p>
+                This is a real problem. People have been permanently banned from Hinge, Tinder,
+                and Bumble after disclosing their status — not because of what they said,
+                but because the other person reported them. Automated moderation doesn't
+                distinguish between a health disclosure and a "safety threat."
+            </p>
+        </div>
+
+        <div class="accordion reveal">
+            <div class="accordion-item">
+                <button class="accordion-trigger">
+                    <span>Move the conversation off the app first</span>
+                    <span class="accordion-icon">+</span>
+                </button>
+                <div class="accordion-body">
+                    <div class="accordion-body-inner">
+                        Before disclosing, exchange phone numbers or move to a messaging
+                        app. The disclosure should never happen inside a platform that has
+                        automated keyword-based moderation. Once you're on iMessage, Signal,
+                        or WhatsApp, you're in a private space where no algorithm can flag you.
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <button class="accordion-trigger">
+                    <span>Don't put your status in your profile</span>
+                    <span class="accordion-icon">+</span>
+                </button>
+                <div class="accordion-body">
+                    <div class="accordion-body-inner">
+                        Some people advocate for radical transparency in your bio. It's
+                        brave, but it's risky. Colleagues, family, and acquaintances can see
+                        your profile. It also opens you to matching with people who fetishize
+                        the condition or who swipe specifically to harass. Disclose privately
+                        to people you've vetted, not publicly to everyone on the platform.
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <button class="accordion-trigger">
+                    <span>If you get banned: the appeal process</span>
+                    <span class="accordion-icon">+</span>
+                </button>
+                <div class="accordion-body">
+                    <div class="accordion-body-inner">
+                        Most platforms have an appeal form buried in their help center.
+                        State clearly that you were sharing a medical disclosure in good
+                        faith and that the report was retaliatory. Reference their own
+                        non-discrimination policies. Success rates vary, but some users
+                        have gotten accounts reinstated. If the appeal fails, creating a
+                        new account with a different phone number is the community workaround,
+                        though it violates most platforms' terms of service.
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <button class="accordion-trigger">
+                    <span>Niche dating apps: are they worth it?</span>
+                    <span class="accordion-icon">+</span>
+                </button>
+                <div class="accordion-body">
+                    <div class="accordion-body-inner">
+                        Platforms like Positive Singles and Hope eliminate the disclosure
+                        conversation entirely. The trade-off: smaller dating pools,
+                        geographic limitations, and subscription costs ($30-$35/month for
+                        the premium tiers). They're useful as a supplement — especially
+                        right after diagnosis when your confidence is low — but most
+                        long-term community members eventually return to mainstream apps
+                        with better disclosure skills.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- THE TRUTH ABOUT DISCLOSURE -->
+    <section class="section prose">
+        <div class="sep reveal"><span class="sep-label">The truth</span></div>
+
+        <h2 class="reveal">It gets easier. Fast.</h2>
+
+        <p class="reveal">
+            The first disclosure is terrifying. The second is hard. By the fifth,
+            it's a conversation you've had before and you know how to navigate.
+            The fear never fully disappears, but it stops controlling you.
+        </p>
+        <p class="reveal">
+            The people who make it through to the other side — the ones in happy
+            relationships, the ones who date freely and confidently — all say the
+            same thing: disclosure became the least interesting part of their dating
+            life. It's a speed bump, not a wall.
+        </p>
+        <p class="reveal">
+            You're going to be fine. And the person who hears your disclosure and
+            says "thanks for telling me — now where are we going for dinner?" is
+            out there. Probably closer than you think.
+        </p>
+    </section>
+
+    <!-- NEXT GUIDE -->
+    <div class="next-guide reveal">
+        <p>Next guide</p>
+        <a href="/guides/transmission">Understanding transmission →</a>
     </div>
 
+    <!-- CRISIS FOOTER -->
+    <footer class="crisis-bar">
+        <p><strong>Need to talk to someone right now?</strong></p>
+        <p>Text <strong>HOME</strong> to <strong>741741</strong> — free, confidential, 24/7.</p>
+        <p>Call <strong>988</strong> for the Suicide & Crisis Lifeline. Your pain is valid.</p>
+        <p class="disclaimer">This is educational content, not medical advice. For diagnosis and treatment, consult a healthcare provider.</p>
+    </footer>
+
+    <!-- JS -->
+    <script>
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) entry.target.classList.add('visible');
+            });
+        }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+
+        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+        document.querySelectorAll('.accordion-trigger').forEach(trigger => {
+            trigger.addEventListener('click', () => {
+                const item = trigger.parentElement;
+                const body = trigger.nextElementSibling;
+                const isOpen = item.classList.contains('open');
+                document.querySelectorAll('.accordion-item').forEach(i => {
+                    i.classList.remove('open');
+                    i.querySelector('.accordion-body').style.maxHeight = null;
+                });
+                if (!isOpen) {
+                    item.classList.add('open');
+                    body.style.maxHeight = body.scrollHeight + 'px';
+                }
+            });
+        });
+
+        document.addEventListener('keyup', (e) => {
+            if (e.key === 'Escape') window.location.href = 'https://weather.com';
+        });
+    </script>
 </body>
 </html>
