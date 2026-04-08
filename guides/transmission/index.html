@@ -3,250 +3,765 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Transmission Math</title>
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <meta name="description" content="The real transmission numbers for HSV. How risk works, what shedding means, and how antivirals and condoms actually reduce it.">
+    <meta property="og:title" content="Understanding Transmission — The Real Numbers">
+    <meta property="og:description" content="How HSV spreads, what asymptomatic shedding means, and what the actual annual risk numbers look like.">
+    <meta property="og:type" content="article">
+    <title>Understanding Transmission — The Real Numbers</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300;0,6..72,400;0,6..72,500;1,6..72,300;1,6..72,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 
     <style>
-        /*
-           AESTHETIC: ADDYSAFE REPLICA
-           Fixed Gradient Mesh + Minimalist Text Overlay
-        */
         :root {
-            --text-white: #ffffff;
-            --text-dark: #2d1b38; /* Deep purple-black for contrast */
-            --glass-panel: rgba(255, 255, 255, 0.95);
-            --accent-pink: #ff6b9d;
-            --accent-blue: #4d94ff;
+            --font-display: 'Newsreader', Georgia, serif;
+            --font-body: 'DM Sans', -apple-system, sans-serif;
+            --purple: #a78bfa;
+            --pink: #f472b6;
+            --cyan: #22d3ee;
+            --pearl: #faf9f7;
+            --warm-white: #f5f3f0;
+            --text-primary: #1a1a1a;
+            --text-secondary: #5a5a5a;
+            --text-muted: #8a8a8a;
+            --border: #e8e5e0;
+            --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
         }
 
-        * { box-sizing: border-box; }
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
 
         body {
-            font-family: 'Quicksand', sans-serif;
-            margin: 0;
-            padding: 0;
-            color: var(--text-white);
-            line-height: 1.8;
+            font-family: var(--font-body);
             font-weight: 400;
+            color: var(--text-primary);
+            background: var(--pearl);
+            line-height: 1.7;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
         }
 
-        /*
-           THE BACKGROUND
-           Matches Image 1: Smooth Purple/Pink/Blue blurred gradient
-           Fixed position so it stays while you scroll.
-        */
-       .gradient-bg {
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            z-index: -1;
+            background:
+                radial-gradient(ellipse at 20% 50%, rgba(167, 139, 250, 0.15) 0%, transparent 60%),
+                radial-gradient(ellipse at 80% 30%, rgba(244, 114, 182, 0.12) 0%, transparent 55%),
+                radial-gradient(ellipse at 60% 80%, rgba(34, 211, 238, 0.08) 0%, transparent 50%);
+            pointer-events: none;
+        }
+
+        /* SCROLL REVEAL */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 1.6s var(--ease-out), transform 1.6s var(--ease-out);
+        }
+        .reveal.visible { opacity: 1; transform: translateY(0); }
+
+        /* NAV */
+        .top-nav {
             position: fixed;
             top: 0;
             left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -1;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #ff9a9e 100%);
-            background-size: 200% 200%;
-            animation: gradientMove 15s ease infinite;
-        }
-
-        @keyframes gradientMove {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
-
-        /* LAYOUT */
-       .container {
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 0 20px;
-            position: relative;
-            z-index: 1;
-        }
-
-        /* HERO SECTION (Matches Image 1 typography) */
-       .hero {
-            min-height: 90vh; /* Full screen feel */
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            text-align: center;
-            padding: 100px 0;
-        }
-
-        h1 {
-            font-size: clamp(2.5rem, 5vw, 4.5rem);
-            font-weight: 300; /* Thin, elegant font */
-            margin-bottom: 20px;
-            text-shadow: 0 4px 10px rgba(0,0,0,0.1);
-        }
-
-       .subtitle {
-            font-size: 1.4rem;
-            font-weight: 600;
-            opacity: 0.9;
-            max-width: 600px;
-            margin: 0 auto 40px;
-        }
-
-       .hero-note {
-            font-size: 1.1rem;
-            opacity: 0.8;
-            max-width: 500px;
-            margin: 0 auto;
-        }
-
-        /* SECTION SEPARATORS (Matches "—— Note ——" style) */
-       .section-header {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 60px 0 40px;
-            color: var(--text-dark);
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            font-weight: 700;
-            font-size: 1rem;
-        }
-       .section-header::before,.section-header::after {
-            content: "";
-            height: 1px;
-            width: 50px;
-            background: var(--text-dark);
-            margin: 0 20px;
-            opacity: 0.3;
-        }
-
-        /* WHITE CONTENT PANEL (Matches Image 2) */
-       .content-panel {
-            background: var(--glass-panel);
-            color: var(--text-dark);
-            padding: 60px 40px;
-            border-radius: 4px; /* Slight rounding, mostly square */
-            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
-            margin-bottom: 100px;
-        }
-
-        /* ACCORDION (Clean text style) */
-       .accordion-item {
-            border-bottom: 1px solid rgba(0,0,0,0.05);
-            padding: 20px 0;
-        }
-       .accordion-header {
-            cursor: pointer;
-            font-weight: 700;
-            font-size: 1.2rem;
+            right: 0;
+            z-index: 100;
             display: flex;
             justify-content: space-between;
             align-items: center;
+            padding: 16px 24px;
+            background: rgba(250, 249, 247, 0.85);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
         }
-       .accordion-header:hover { color: var(--accent-pink); }
-       .accordion-body {
-            display: none;
-            padding-top: 15px;
-            font-size: 1.05rem;
-            color: #555;
-        }
-
-        /* STATS (Minimalist) */
-       .stats-row {
-            display: flex;
-            justify-content: space-around;
-            text-align: center;
-            margin: 40px 0;
-            flex-wrap: wrap;
-            gap: 20px;
-        }
-       .stat-item strong {
-            display: block;
-            font-size: 3rem;
-            color: var(--accent-blue);
-            line-height: 1;
-            margin-bottom: 5px;
-        }
-
-        /* LANGUAGE TABLE */
-       .lang-table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 30px;
-        }
-       .lang-table td {
-            padding: 15px;
-            border-bottom: 1px solid #eee;
-        }
-       .lang-bad { color: #aaa; text-decoration: line-through; }
-       .lang-good { color: var(--text-dark); font-weight: 700; }
-
-        /* PRODUCT LIST (Matches Image 2 "Supplements" list) */
-       .product-list {
-            list-style: none;
-            padding: 0;
-        }
-       .product-item {
-            margin-bottom: 30px;
-            padding-left: 20px;
-            border-left: 3px solid var(--accent-pink);
-        }
-       .product-title {
-            font-weight: 700;
-            font-size: 1.1rem;
-            display: block;
-            margin-bottom: 5px;
-        }
-       .product-desc {
-            font-size: 0.95rem;
-            color: #666;
-            margin-bottom: 10px;
-            display: block;
-        }
-       .product-link {
-            display: inline-block;
-            font-size: 0.85rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            color: var(--accent-blue);
-            text-decoration: none;
-            font-weight: 700;
-            border-bottom: 1px solid transparent;
-        }
-       .product-link:hover { border-bottom-color: var(--accent-blue); }
-
-        /* SAFE EXIT BUTTON */
-       .safe-exit {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            background: rgba(0,0,0,0.3);
-            color: white;
-            padding: 10px 20px;
-            border-radius: 30px;
-            text-decoration: none;
-            backdrop-filter: blur(5px);
+        .nav-back {
+            font-family: var(--font-body);
             font-size: 0.8rem;
-            z-index: 100;
-            transition: background 0.2s;
+            font-weight: 500;
+            color: var(--text-muted);
+            text-decoration: none;
+            transition: color 0.2s;
         }
-       .safe-exit:hover { background: rgba(0,0,0,0.6); }
+        .nav-back:hover { color: var(--text-primary); }
+        .safe-exit {
+            font-family: var(--font-body);
+            font-size: 0.75rem;
+            font-weight: 500;
+            letter-spacing: 0.04em;
+            color: var(--text-muted);
+            text-decoration: none;
+            padding: 8px 14px;
+            border: 1px solid var(--border);
+            border-radius: 100px;
+            transition: all 0.3s ease;
+        }
+        .safe-exit:hover { color: var(--text-primary); border-color: var(--text-muted); }
 
-        /* FOOTER */
-        footer {
+        /* HERO */
+        .hero {
+            padding: 160px 24px 100px;
             text-align: center;
-            padding: 50px 0;
+            max-width: 680px;
+            margin: 0 auto;
+        }
+        .hero-label {
+            font-family: var(--font-body);
+            font-size: 0.7rem;
+            font-weight: 500;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            margin-bottom: 24px;
+            opacity: 0;
+            animation: fadeUp 1.2s var(--ease-out) 0.2s forwards;
+        }
+        .hero h1 {
+            font-family: var(--font-display);
+            font-weight: 300;
+            font-size: clamp(2rem, 5vw, 3.4rem);
+            line-height: 1.15;
+            letter-spacing: -0.02em;
+            color: var(--text-primary);
+            margin-bottom: 24px;
+            opacity: 0;
+            animation: fadeUp 1.2s var(--ease-out) 0.4s forwards;
+        }
+        .hero-sub {
+            font-size: 1.1rem;
+            font-weight: 300;
+            color: var(--text-secondary);
+            line-height: 1.8;
+            max-width: 500px;
+            margin: 0 auto;
+            opacity: 0;
+            animation: fadeUp 1.2s var(--ease-out) 0.7s forwards;
+        }
+
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* SECTIONS */
+        .section { padding: 80px 24px; max-width: 680px; margin: 0 auto; }
+        .section-wide { padding: 80px 24px; max-width: 880px; margin: 0 auto; }
+        .section-full { padding: 80px 24px; }
+
+        /* SEPARATOR */
+        .sep {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 16px;
+            margin-bottom: 60px;
+        }
+        .sep-label {
+            font-family: var(--font-body);
+            font-size: 0.7rem;
+            font-weight: 500;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            color: var(--text-muted);
+        }
+
+        /* PROSE */
+        .prose h2 {
+            font-family: var(--font-display);
+            font-weight: 400;
+            font-size: clamp(1.5rem, 3vw, 2rem);
+            line-height: 1.3;
+            letter-spacing: -0.015em;
+            margin-bottom: 24px;
+            color: var(--text-primary);
+        }
+        .prose h3 {
+            font-family: var(--font-display);
+            font-weight: 400;
+            font-size: 1.3rem;
+            margin-top: 48px;
+            margin-bottom: 16px;
+            color: var(--text-primary);
+        }
+        .prose p {
+            font-size: 1.05rem;
+            font-weight: 300;
+            color: var(--text-secondary);
+            margin-bottom: 20px;
+            line-height: 1.8;
+        }
+        .prose p:last-child { margin-bottom: 0; }
+        .prose strong { font-weight: 500; color: var(--text-primary); }
+        .prose em { font-family: var(--font-display); font-style: italic; }
+
+        /* STAT BAND */
+        .stat-band { background: var(--warm-white); }
+        .stat-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 48px;
+            max-width: 880px;
+            margin: 0 auto;
+            text-align: center;
+        }
+        .stagger > .reveal:nth-child(1) { transition-delay: 0s; }
+        .stagger > .reveal:nth-child(2) { transition-delay: 0.2s; }
+        .stagger > .reveal:nth-child(3) { transition-delay: 0.4s; }
+        .stagger > .reveal:nth-child(4) { transition-delay: 0.6s; }
+        .stat-item { padding: 20px 0; }
+        .stat-number {
+            font-family: var(--font-display);
+            font-size: 3.2rem;
+            font-weight: 300;
+            letter-spacing: -0.03em;
+            line-height: 1;
+            margin-bottom: 12px;
+            background: linear-gradient(135deg, var(--purple), var(--pink));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .stat-label {
+            font-size: 0.95rem;
+            font-weight: 400;
+            color: var(--text-secondary);
+            line-height: 1.5;
+        }
+
+        /* RISK TABLE */
+        .risk-table {
+            width: 100%;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            overflow: hidden;
+            background: white;
+            margin: 32px 0;
+        }
+        .risk-row {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            border-bottom: 1px solid var(--border);
+        }
+        .risk-row:last-child { border-bottom: none; }
+        .risk-head { background: var(--text-primary); }
+        .risk-head .risk-cell {
+            color: white;
+            font-weight: 500;
+            font-size: 0.75rem;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+        }
+        .risk-cell { padding: 18px 24px; font-size: 0.95rem; font-weight: 300; color: var(--text-secondary); }
+        .risk-cell:first-child { border-right: 1px solid var(--border); }
+        .risk-cell strong { font-weight: 500; color: var(--text-primary); }
+        .risk-low { color: #22a66e !important; font-weight: 500 !important; }
+        .risk-high { color: #c0392b !important; font-weight: 500 !important; }
+
+        /* COMPARE GRID */
+        .compare-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin: 32px 0;
+        }
+        .compare-card {
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 28px;
+        }
+        .compare-card h4 {
+            font-family: var(--font-body);
+            font-size: 0.95rem;
+            font-weight: 600;
+            margin-bottom: 12px;
+            color: var(--text-primary);
+        }
+        .compare-card ul { list-style: none; padding: 0; margin: 0; }
+        .compare-card li {
             font-size: 0.9rem;
-            opacity: 0.7;
+            font-weight: 300;
+            color: var(--text-secondary);
+            line-height: 1.6;
+            padding: 6px 0;
+        }
+        .compare-card li::before { content: '→ '; color: var(--text-muted); }
+
+        /* CALLOUT */
+        .callout {
+            background: var(--warm-white);
+            border-radius: 12px;
+            padding: 28px 32px;
+            margin: 32px 0;
+        }
+        .callout p { font-size: 0.95rem; margin-bottom: 12px; color: var(--text-secondary); font-weight: 300; line-height: 1.8; }
+        .callout p:last-child { margin-bottom: 0; }
+        .callout strong { font-weight: 500; color: var(--text-primary); }
+
+        /* ACCORDION */
+        .accordion {
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            background: white;
+            overflow: hidden;
+            margin: 32px 0;
+        }
+        .accordion-item { border-bottom: 1px solid var(--border); }
+        .accordion-item:last-child { border-bottom: none; }
+        .accordion-trigger {
+            width: 100%;
+            background: none;
+            border: none;
+            font-family: var(--font-body);
+            font-size: 1rem;
+            font-weight: 500;
+            color: var(--text-primary);
+            text-align: left;
+            padding: 22px 28px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: background 0.2s ease;
+        }
+        .accordion-trigger:hover { background: var(--warm-white); }
+        .accordion-icon {
+            font-size: 1.2rem;
+            font-weight: 300;
+            color: var(--text-muted);
+            transition: transform 0.3s var(--ease-out);
+            flex-shrink: 0;
+            margin-left: 16px;
+        }
+        .accordion-item.open .accordion-icon { transform: rotate(45deg); }
+        .accordion-body {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s var(--ease-out);
+        }
+        .accordion-body-inner {
+            padding: 0 28px 24px;
+            font-size: 0.95rem;
+            font-weight: 300;
+            color: var(--text-secondary);
+            line-height: 1.8;
+        }
+
+        /* NEXT GUIDE LINK */
+        .next-guide {
+            text-align: center;
+            padding: 80px 24px;
+            background: var(--warm-white);
+        }
+        .next-guide p { font-size: 0.9rem; color: var(--text-muted); margin-bottom: 12px; }
+        .next-guide a {
+            font-family: var(--font-display);
+            font-size: 1.3rem;
+            font-weight: 400;
+            color: var(--purple);
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+        .next-guide a:hover { color: var(--pink); }
+
+        /* CRISIS FOOTER */
+        .crisis-bar { text-align: center; padding: 48px 24px; }
+        .crisis-bar p { font-size: 0.9rem; color: var(--text-secondary); margin-bottom: 6px; }
+        .crisis-bar strong { font-weight: 600; color: var(--text-primary); }
+        .crisis-bar .disclaimer { font-size: 0.75rem; color: var(--text-muted); margin-top: 20px; }
+
+        /* RESPONSIVE */
+        @media (max-width: 600px) {
+            .section, .section-wide, .section-full { padding: 60px 20px; }
+            .hero { padding: 140px 20px 72px; }
+            .compare-grid { grid-template-columns: 1fr; }
+            .risk-row { grid-template-columns: 1fr; }
+            .risk-cell:first-child { border-right: none; border-bottom: 1px solid var(--border); }
+            .accordion-trigger { padding: 18px 20px; font-size: 0.95rem; }
+            .accordion-body-inner { padding: 0 20px 20px; }
         }
     </style>
 </head>
 <body>
 
-    <div class="gradient-bg"></div>
-    <a href="https://weather.com" class="safe-exit">Esc / Quick Exit</a>
+    <!-- NAV -->
+    <nav class="top-nav">
+        <a href="/" class="nav-back">← Day 1</a>
+        <a href="https://weather.com" class="safe-exit">Exit</a>
+    </nav>
 
-    <div class="container">
-        <header class="hero">
-            <h1>Transmission Math</h1>
-        </header>
+    <!-- HERO -->
+    <header class="hero">
+        <div class="hero-label">Guide</div>
+        <h1>The real numbers.</h1>
+        <p class="hero-sub">
+            Most people overestimate how transmissible HSV is — especially with
+            protection. Here's what the actual data says, explained clearly.
+        </p>
+    </header>
+
+    <!-- THE REFRAME -->
+    <section class="section prose">
+        <div class="sep reveal"><span class="sep-label">How it spreads</span></div>
+
+        <h2 class="reveal">HSV is a contact virus — nothing more.</h2>
+
+        <p class="reveal">
+            Herpes simplex spreads through direct skin-to-skin contact with the
+            affected area during viral shedding. It does not travel through air,
+            survive on surfaces for more than a few seconds, or spread through
+            shared towels, toilet seats, or casual touch.
+        </p>
+        <p class="reveal">
+            The affected area matters. HSV-1 oral spreads through oral contact.
+            HSV-1 or HSV-2 genital spreads through genital contact — or oral-to-genital
+            contact. Transmission requires the virus to meet mucous membrane or
+            broken skin. Intact skin is an effective barrier.
+        </p>
+        <p class="reveal">
+            The virus sheds from the skin surface — not from blood or saliva in
+            general. <strong>Shedding does not mean visible sores.</strong> The virus
+            can be active and transmissible even when there are no symptoms at all.
+            This is called asymptomatic shedding, and it's the most important concept
+            to understand.
+        </p>
+    </section>
+
+    <!-- SHEDDING -->
+    <section class="section prose">
+        <div class="sep reveal"><span class="sep-label">Asymptomatic shedding</span></div>
+
+        <h2 class="reveal">Active virus without symptoms.</h2>
+
+        <p class="reveal">
+            HSV lives in the nerve ganglia near the base of the spine. Most of the
+            time it's dormant — inactive and non-transmissible. On some days, it
+            travels to the skin's surface and sheds, whether or not it produces
+            any visible symptoms.
+        </p>
+        <p class="reveal">
+            Studies tracking daily swabs from HSV-2 positive individuals found
+            shedding on approximately <strong>15–20% of days</strong> without antiviral
+            medication — meaning the virus was detectable on the skin roughly
+            one in six days. With daily valacyclovir, that drops to around
+            <strong>3–5% of days</strong>.
+        </p>
+        <p class="reveal">
+            Shedding episodes are typically short — often a few hours — and the
+            viral load is usually much lower during asymptomatic shedding than
+            during an active outbreak. Lower viral load means lower transmission
+            risk per contact, even when shedding is happening.
+        </p>
+        <p class="reveal">
+            HSV-1 genitally sheds at a significantly lower rate than HSV-2 —
+            roughly half as often. If you have genital HSV-1, your baseline
+            transmission risk is lower to begin with.
+        </p>
+    </section>
+
+    <!-- STATS -->
+    <section class="stat-band section-full">
+        <div class="sep reveal"><span class="sep-label">By the numbers</span></div>
+        <div class="stat-grid stagger">
+            <div class="stat-item reveal">
+                <div class="stat-number">~1–2%</div>
+                <div class="stat-label">Annual transmission risk for couples<br>using antivirals and condoms together.</div>
+            </div>
+            <div class="stat-item reveal">
+                <div class="stat-number">73%</div>
+                <div class="stat-label">Reduction in shedding rate<br>with daily valacyclovir.</div>
+            </div>
+            <div class="stat-item reveal">
+                <div class="stat-number">~48%</div>
+                <div class="stat-label">Reduction in transmission risk<br>from antivirals alone.</div>
+            </div>
+            <div class="stat-item reveal">
+                <div class="stat-number">~30%</div>
+                <div class="stat-label">Additional transmission reduction<br>from consistent condom use.</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- RISK TABLE -->
+    <section class="section prose">
+        <div class="sep reveal"><span class="sep-label">Annual risk breakdown</span></div>
+
+        <h2 class="reveal">What the numbers look like in practice.</h2>
+
+        <p class="reveal">
+            These are annual transmission rates for regular couples — not per-act
+            rates. The distinction matters: per-act risk is very low; annual risk
+            accumulates over many contacts across a year. The numbers below reflect
+            HSV-2, which sheds more frequently than genital HSV-1.
+        </p>
+
+        <div class="risk-table reveal">
+            <div class="risk-row risk-head">
+                <div class="risk-cell">Scenario</div>
+                <div class="risk-cell">Annual risk</div>
+            </div>
+            <div class="risk-row">
+                <div class="risk-cell">No protection, male-to-female</div>
+                <div class="risk-cell"><span class="risk-high">~8–11%</span></div>
+            </div>
+            <div class="risk-row">
+                <div class="risk-cell">No protection, female-to-male</div>
+                <div class="risk-cell"><span class="risk-high">~4–5%</span></div>
+            </div>
+            <div class="risk-row">
+                <div class="risk-cell">Condoms only (consistent use)</div>
+                <div class="risk-cell">~3–6%</div>
+            </div>
+            <div class="risk-row">
+                <div class="risk-cell">Daily antivirals only</div>
+                <div class="risk-cell">~4–6%</div>
+            </div>
+            <div class="risk-row">
+                <div class="risk-cell"><strong>Antivirals + condoms</strong></div>
+                <div class="risk-cell"><span class="risk-low">~1–2%</span></div>
+            </div>
+            <div class="risk-row">
+                <div class="risk-cell">Antivirals + condoms + avoiding contact during outbreaks</div>
+                <div class="risk-cell"><span class="risk-low">&lt;1%</span></div>
+            </div>
+        </div>
+
+        <div class="callout reveal">
+            <p><strong>For context:</strong> The annual risk of a vaccinated person contracting flu from a household contact is estimated at 5–15%. The risk of pregnancy in couples using condoms correctly is ~2% per year. At &lt;1–2%, combined HSV protection puts transmission risk well within the range of risks most people accept in daily life without a second thought.</p>
+        </div>
+    </section>
+
+    <!-- HOW ANTIVIRALS WORK -->
+    <section class="section prose">
+        <div class="sep reveal"><span class="sep-label">Antivirals</span></div>
+
+        <h2 class="reveal">How suppression therapy works.</h2>
+
+        <p class="reveal">
+            Daily antiviral therapy — most commonly valacyclovir (Valtrex) at 500mg
+            once daily — works by interfering with the virus's ability to replicate.
+            When the virus tries to travel to the skin surface, the drug suppresses
+            the replication cycle before it gains enough viral load to shed effectively.
+        </p>
+        <p class="reveal">
+            <strong>Suppressive therapy vs. episodic therapy:</strong> Episodic therapy
+            means taking antivirals only when an outbreak occurs, to shorten its duration.
+            Suppressive therapy means taking them every day regardless of symptoms.
+            If your goal is reducing transmission risk to partners, suppressive therapy
+            is required — episodic therapy doesn't reduce asymptomatic shedding.
+        </p>
+        <p class="reveal">
+            Valacyclovir is well-tolerated, inexpensive as a generic, and has been in
+            use for over 25 years. It doesn't interact with alcohol in any meaningful way.
+            It's not a cure — the virus remains in the ganglia — but it keeps the virus
+            quiet the vast majority of the time.
+        </p>
+    </section>
+
+    <!-- PROTECTIVE FACTORS -->
+    <section class="section">
+        <div class="sep reveal"><span class="sep-label">Reducing risk</span></div>
+
+        <div class="prose reveal" style="margin-bottom: 24px;">
+            <h2>What actually helps — and how much.</h2>
+        </div>
+
+        <div class="compare-grid reveal">
+            <div class="compare-card">
+                <h4>High impact</h4>
+                <ul>
+                    <li>Daily suppressive antivirals</li>
+                    <li>Consistent condom use (especially during shedding periods)</li>
+                    <li>Avoiding all contact during active outbreaks</li>
+                    <li>Learning to recognize prodromal symptoms (tingling, itching)</li>
+                </ul>
+            </div>
+            <div class="compare-card">
+                <h4>Moderate impact</h4>
+                <ul>
+                    <li>Condoms alone (protect the covered area only)</li>
+                    <li>Dental dams for oral contact</li>
+                    <li>Reducing outbreak frequency through stress management</li>
+                    <li>Partner's prior HSV-1 status (may confer partial immunity)</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="callout reveal">
+            <p><strong>One important limitation of condoms:</strong> Condoms cover the penis or line the vagina, but HSV can shed from areas not covered — the base of the shaft, the scrotum, inner thighs, or buttocks. Condoms significantly reduce risk but can't eliminate it entirely because they don't cover all skin that may shed. This is why antivirals — which reduce shedding across all skin — are the more complete protection strategy.</p>
+        </div>
+    </section>
+
+    <!-- COMMON QUESTIONS -->
+    <section class="section">
+        <div class="sep reveal"><span class="sep-label">Common questions</span></div>
+
+        <div class="accordion reveal">
+            <div class="accordion-item">
+                <button class="accordion-trigger">
+                    <span>What's the difference between HSV-1 and HSV-2?</span>
+                    <span class="accordion-icon">+</span>
+                </button>
+                <div class="accordion-body">
+                    <div class="accordion-body-inner">
+                        Both are herpes simplex viruses with nearly identical biology. HSV-1
+                        classically causes oral herpes (cold sores) and HSV-2 classically causes
+                        genital herpes — but either can appear in either location.
+                        The meaningful differences: HSV-2 sheds more frequently genitally
+                        (roughly twice as often) and tends to produce more frequent recurrences.
+                        Genital HSV-1 typically recurs less often and sheds less, meaning
+                        it carries lower ongoing transmission risk. Both respond to the same
+                        antivirals.
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <button class="accordion-trigger">
+                    <span>Can I transmit it if I don't have symptoms?</span>
+                    <span class="accordion-icon">+</span>
+                </button>
+                <div class="accordion-body">
+                    <div class="accordion-body-inner">
+                        Yes — this is asymptomatic shedding. The virus can be present on the
+                        skin surface without causing visible sores or any sensation. However,
+                        transmission risk during asymptomatic shedding is substantially lower
+                        than during an active outbreak, because viral load is lower. Daily
+                        antivirals reduce asymptomatic shedding by about 73%, which is
+                        the primary mechanism through which they reduce transmission risk.
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <button class="accordion-trigger">
+                    <span>Does my partner having HSV-1 orally offer any protection?</span>
+                    <span class="accordion-icon">+</span>
+                </button>
+                <div class="accordion-body">
+                    <div class="accordion-body-inner">
+                        Partially. Prior infection with one type of HSV does not prevent
+                        infection with the other type, but it does reduce the severity of
+                        the new infection and may reduce the likelihood of establishing
+                        a second site. A partner who already has oral HSV-1 has some
+                        immune response to the herpes simplex family — they're less likely
+                        to acquire genital HSV-1 and may have a modestly reduced risk of
+                        acquiring genital HSV-2. It's not immunity, but it's a factor
+                        that some virologists consider meaningful.
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <button class="accordion-trigger">
+                    <span>What about HSV and pregnancy?</span>
+                    <span class="accordion-icon">+</span>
+                </button>
+                <div class="accordion-body">
+                    <div class="accordion-body-inner">
+                        The main concern is neonatal herpes — transmission to the baby
+                        during delivery. This is rare (roughly 1 in 3,000–20,000 births)
+                        and the risk is highest when a mother acquires a new genital HSV
+                        infection in the third trimester, because she hasn't built antibodies
+                        to pass to the baby. For established infections, the risk is very
+                        low and well-managed with suppressive antivirals from week 36 onward.
+                        A cesarean section is typically recommended only if active lesions
+                        are present at the time of delivery. Discuss your specific situation
+                        with your OB — this is a manageable and well-understood area of
+                        obstetric care.
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <button class="accordion-trigger">
+                    <span>Can HSV affect my immune system long-term?</span>
+                    <span class="accordion-icon">+</span>
+                </button>
+                <div class="accordion-body">
+                    <div class="accordion-body-inner">
+                        No. HSV is not an immunocompromising virus. It does not reduce
+                        your CD4 count, does not affect your white blood cell production,
+                        and does not leave you more vulnerable to other infections in any
+                        documented way. The virus remains latent in the neural ganglia and
+                        the immune system keeps it in check. People with compromised immune
+                        systems (from HIV, chemotherapy, etc.) do experience more frequent
+                        and severe outbreaks — but the causality runs the other way.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- TRIGGERS -->
+    <section class="section prose">
+        <div class="sep reveal"><span class="sep-label">Outbreak triggers</span></div>
+
+        <h2 class="reveal">What causes the virus to reactivate.</h2>
+
+        <p class="reveal">
+            The virus reactivates when the immune system is under stress. Common triggers
+            include: physical illness, especially fever; high psychological stress;
+            sleep deprivation; UV exposure (for oral HSV-1); hormonal shifts including
+            menstruation; and friction or irritation in the affected area.
+        </p>
+        <p class="reveal">
+            <strong>Prodromal symptoms</strong> — tingling, itching, or a burning
+            sensation in the affected area — typically appear 12–48 hours before
+            a visible outbreak. Recognizing these early signals gives you time to
+            start episodic antivirals (if not already on suppressive therapy) and
+            to communicate clearly with a partner about contact.
+        </p>
+        <p class="reveal">
+            Managing triggers is a legitimate reduction strategy. Most long-term
+            HSV-positive people report that their outbreaks become less frequent
+            over years — partly because the immune system mounts a stronger
+            response over time, and partly because they get better at managing
+            the factors that provoke reactivation.
+        </p>
+    </section>
+
+    <!-- NEXT GUIDE -->
+    <div class="next-guide reveal">
+        <p>Next</p>
+        <a href="/resources">Treatment options & resources →</a>
     </div>
 
+    <!-- CRISIS FOOTER -->
+    <footer class="crisis-bar">
+        <p><strong>Need to talk to someone right now?</strong></p>
+        <p>Text <strong>HOME</strong> to <strong>741741</strong> — free, confidential, 24/7.</p>
+        <p>Call <strong>988</strong> for the Suicide & Crisis Lifeline. Your pain is valid.</p>
+        <p class="disclaimer">This is educational content, not medical advice. For diagnosis and treatment, consult a healthcare provider.</p>
+    </footer>
+
+    <!-- JS -->
+    <script>
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) entry.target.classList.add('visible');
+            });
+        }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+
+        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+        document.querySelectorAll('.accordion-trigger').forEach(trigger => {
+            trigger.addEventListener('click', () => {
+                const item = trigger.parentElement;
+                const body = trigger.nextElementSibling;
+                const isOpen = item.classList.contains('open');
+                document.querySelectorAll('.accordion-item').forEach(i => {
+                    i.classList.remove('open');
+                    i.querySelector('.accordion-body').style.maxHeight = null;
+                });
+                if (!isOpen) {
+                    item.classList.add('open');
+                    body.style.maxHeight = body.scrollHeight + 'px';
+                }
+            });
+        });
+
+        document.addEventListener('keyup', (e) => {
+            if (e.key === 'Escape') window.location.href = 'https://weather.com';
+        });
+    </script>
 </body>
 </html>
