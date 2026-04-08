@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Transmission Math</title>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        /*
+           AESTHETIC: ADDYSAFE REPLICA
+           Fixed Gradient Mesh + Minimalist Text Overlay
+        */
+        :root {
+            --text-white: #ffffff;
+            --text-dark: #2d1b38; /* Deep purple-black for contrast */
+            --glass-panel: rgba(255, 255, 255, 0.95);
+            --accent-pink: #ff6b9d;
+            --accent-blue: #4d94ff;
+        }
+
+        * { box-sizing: border-box; }
+
+        body {
+            font-family: 'Quicksand', sans-serif;
+            margin: 0;
+            padding: 0;
+            color: var(--text-white);
+            line-height: 1.8;
+            font-weight: 400;
+        }
+
+        /*
+           THE BACKGROUND
+           Matches Image 1: Smooth Purple/Pink/Blue blurred gradient
+           Fixed position so it stays while you scroll.
+        */
+       .gradient-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #ff9a9e 100%);
+            background-size: 200% 200%;
+            animation: gradientMove 15s ease infinite;
+        }
+
+        @keyframes gradientMove {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* LAYOUT */
+       .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* HERO SECTION (Matches Image 1 typography) */
+       .hero {
+            min-height: 90vh; /* Full screen feel */
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            text-align: center;
+            padding: 100px 0;
+        }
+
+        h1 {
+            font-size: clamp(2.5rem, 5vw, 4.5rem);
+            font-weight: 300; /* Thin, elegant font */
+            margin-bottom: 20px;
+            text-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+
+       .subtitle {
+            font-size: 1.4rem;
+            font-weight: 600;
+            opacity: 0.9;
+            max-width: 600px;
+            margin: 0 auto 40px;
+        }
+
+       .hero-note {
+            font-size: 1.1rem;
+            opacity: 0.8;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        /* SECTION SEPARATORS (Matches "—— Note ——" style) */
+       .section-header {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 60px 0 40px;
+            color: var(--text-dark);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-weight: 700;
+            font-size: 1rem;
+        }
+       .section-header::before,.section-header::after {
+            content: "";
+            height: 1px;
+            width: 50px;
+            background: var(--text-dark);
+            margin: 0 20px;
+            opacity: 0.3;
+        }
+
+        /* WHITE CONTENT PANEL (Matches Image 2) */
+       .content-panel {
+            background: var(--glass-panel);
+            color: var(--text-dark);
+            padding: 60px 40px;
+            border-radius: 4px; /* Slight rounding, mostly square */
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            margin-bottom: 100px;
+        }
+
+        /* ACCORDION (Clean text style) */
+       .accordion-item {
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+            padding: 20px 0;
+        }
+       .accordion-header {
+            cursor: pointer;
+            font-weight: 700;
+            font-size: 1.2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+       .accordion-header:hover { color: var(--accent-pink); }
+       .accordion-body {
+            display: none;
+            padding-top: 15px;
+            font-size: 1.05rem;
+            color: #555;
+        }
+
+        /* STATS (Minimalist) */
+       .stats-row {
+            display: flex;
+            justify-content: space-around;
+            text-align: center;
+            margin: 40px 0;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+       .stat-item strong {
+            display: block;
+            font-size: 3rem;
+            color: var(--accent-blue);
+            line-height: 1;
+            margin-bottom: 5px;
+        }
+
+        /* LANGUAGE TABLE */
+       .lang-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 30px;
+        }
+       .lang-table td {
+            padding: 15px;
+            border-bottom: 1px solid #eee;
+        }
+       .lang-bad { color: #aaa; text-decoration: line-through; }
+       .lang-good { color: var(--text-dark); font-weight: 700; }
+
+        /* PRODUCT LIST (Matches Image 2 "Supplements" list) */
+       .product-list {
+            list-style: none;
+            padding: 0;
+        }
+       .product-item {
+            margin-bottom: 30px;
+            padding-left: 20px;
+            border-left: 3px solid var(--accent-pink);
+        }
+       .product-title {
+            font-weight: 700;
+            font-size: 1.1rem;
+            display: block;
+            margin-bottom: 5px;
+        }
+       .product-desc {
+            font-size: 0.95rem;
+            color: #666;
+            margin-bottom: 10px;
+            display: block;
+        }
+       .product-link {
+            display: inline-block;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--accent-blue);
+            text-decoration: none;
+            font-weight: 700;
+            border-bottom: 1px solid transparent;
+        }
+       .product-link:hover { border-bottom-color: var(--accent-blue); }
+
+        /* SAFE EXIT BUTTON */
+       .safe-exit {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: rgba(0,0,0,0.3);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 30px;
+            text-decoration: none;
+            backdrop-filter: blur(5px);
+            font-size: 0.8rem;
+            z-index: 100;
+            transition: background 0.2s;
+        }
+       .safe-exit:hover { background: rgba(0,0,0,0.6); }
+
+        /* FOOTER */
+        footer {
+            text-align: center;
+            padding: 50px 0;
+            font-size: 0.9rem;
+            opacity: 0.7;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="gradient-bg"></div>
+    <a href="https://weather.com" class="safe-exit">Esc / Quick Exit</a>
+
+    <div class="container">
+        <header class="hero">
+            <h1>Transmission Math</h1>
+        </header>
+    </div>
+
+</body>
+</html>
