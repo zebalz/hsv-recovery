@@ -9,300 +9,351 @@
     <meta property="og:description" content="A calm, honest guide for navigating your first 24 hours. Take a breath, read this, and plan your next steps.">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://ourday.one/">
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300;0,6..72,400;0,6..72,500;1,6..72,300;1,6..72,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 
     <style>
-        /*
-           AESTHETIC: ADDYSAFE REPLICA
-           Fixed Gradient Mesh + Minimalist Text Overlay
-        */
         :root {
-            --text-white: #ffffff;
-            --text-dark: #2d1b38; /* Deep purple-black for contrast */
-            --glass-panel: rgba(255, 255, 255, 0.95);
-            --accent-pink: #ff6b9d;
-            --accent-blue: #4d94ff;
+            --font-display: 'Newsreader', Georgia, serif;
+            --font-body: 'DM Sans', -apple-system, sans-serif;
+            --purple: #a78bfa;
+            --pink: #f472b6;
+            --cyan: #22d3ee;
+            --pearl: #faf9f7;
+            --warm-white: #f5f3f0;
+            --text-primary: #1a1a1a;
+            --text-secondary: #5a5a5a;
+            --text-muted: #8a8a8a;
+            --border: #e8e5e0;
+            --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
         }
 
-        * { box-sizing: border-box; }
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
 
         body {
-            font-family: 'Quicksand', sans-serif;
-            margin: 0;
-            padding: 0;
-            color: var(--text-white);
-            line-height: 1.8;
+            font-family: var(--font-body);
             font-weight: 400;
+            color: var(--text-primary);
+            background: var(--pearl);
+            line-height: 1.7;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
         }
 
-        /*
-           THE BACKGROUND
-           Matches Image 1: Smooth Purple/Pink/Blue blurred gradient
-           Fixed position so it stays while you scroll.
-        */
-       .gradient-bg {
+        body::before {
+            content: '';
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
+            inset: 0;
             z-index: -1;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #ff9a9e 100%);
-            background-size: 200% 200%;
-            animation: gradientMove 15s ease infinite;
+            background:
+                radial-gradient(ellipse at 20% 50%, rgba(167, 139, 250, 0.15) 0%, transparent 60%),
+                radial-gradient(ellipse at 80% 30%, rgba(244, 114, 182, 0.12) 0%, transparent 55%),
+                radial-gradient(ellipse at 60% 80%, rgba(34, 211, 238, 0.08) 0%, transparent 50%);
+            pointer-events: none;
         }
 
-        @keyframes gradientMove {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
+        /* SCROLL REVEAL */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 1.6s var(--ease-out), transform 1.6s var(--ease-out);
         }
+        .reveal.visible { opacity: 1; transform: translateY(0); }
 
-        /* LAYOUT */
-       .container {
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 0 20px;
-            position: relative;
-            z-index: 1;
-        }
-
-        /* HERO SECTION (Matches Image 1 typography) */
-       .hero {
-            min-height: 90vh; /* Full screen feel */
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            text-align: center;
-            padding: 100px 0;
-        }
-
-        h1 {
-            font-size: clamp(2.5rem, 5vw, 4.5rem);
-            font-weight: 300; /* Thin, elegant font */
-            margin-bottom: 20px;
-            text-shadow: 0 4px 10px rgba(0,0,0,0.1);
-        }
-
-       .subtitle {
-            font-size: 1.4rem;
-            font-weight: 600;
-            opacity: 0.9;
-            max-width: 600px;
-            margin: 0 auto 40px;
-        }
-
-       .hero-note {
-            font-size: 1.1rem;
-            opacity: 0.8;
-            max-width: 500px;
-            margin: 0 auto;
-        }
-
-        /* SECTION SEPARATORS (Matches "—— Note ——" style) */
-       .section-header {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 60px 0 40px;
-            color: var(--text-dark);
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            font-weight: 700;
-            font-size: 1rem;
-        }
-       .section-header::before,.section-header::after {
-            content: "";
-            height: 1px;
-            width: 50px;
-            background: var(--text-dark);
-            margin: 0 20px;
-            opacity: 0.3;
-        }
-
-        /* WHITE CONTENT PANEL (Matches Image 2) */
-       .content-panel {
-            background: var(--glass-panel);
-            color: var(--text-dark);
-            padding: 60px 40px;
-            border-radius: 4px; /* Slight rounding, mostly square */
-            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
-            margin-bottom: 100px;
-        }
-
-        /* ACCORDION (Clean text style) */
-       .accordion-item {
-            border-bottom: 1px solid rgba(0,0,0,0.05);
-            padding: 20px 0;
-        }
-       .accordion-header {
-            cursor: pointer;
-            font-weight: 700;
-            font-size: 1.2rem;
+        /* NAV */
+        .top-nav {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            z-index: 100;
             display: flex;
             justify-content: space-between;
             align-items: center;
+            padding: 16px 24px;
+            background: rgba(250, 249, 247, 0.85);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
         }
-       .accordion-header:hover { color: var(--accent-pink); }
-       .accordion-body {
-            display: none;
-            padding-top: 15px;
-            font-size: 1.05rem;
-            color: #555;
-        }
-
-        /* STATS (Minimalist) */
-       .stats-row {
-            display: flex;
-            justify-content: space-around;
-            text-align: center;
-            margin: 40px 0;
-            flex-wrap: wrap;
-            gap: 20px;
-        }
-       .stat-item strong {
-            display: block;
-            font-size: 3rem;
-            color: var(--accent-blue);
-            line-height: 1;
-            margin-bottom: 5px;
-        }
-
-        /* LANGUAGE TABLE */
-       .lang-table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 30px;
-        }
-       .lang-table td {
-            padding: 15px;
-            border-bottom: 1px solid #eee;
-        }
-       .lang-bad { color: #aaa; text-decoration: line-through; }
-       .lang-good { color: var(--text-dark); font-weight: 700; }
-
-        /* PRODUCT LIST (Matches Image 2 "Supplements" list) */
-       .product-list {
-            list-style: none;
-            padding: 0;
-        }
-       .product-item {
-            margin-bottom: 30px;
-            padding-left: 20px;
-            border-left: 3px solid var(--accent-pink);
-        }
-       .product-title {
-            font-weight: 700;
-            font-size: 1.1rem;
-            display: block;
-            margin-bottom: 5px;
-        }
-       .product-desc {
-            font-size: 0.95rem;
-            color: #666;
-            margin-bottom: 10px;
-            display: block;
-        }
-       .product-link {
-            display: inline-block;
-            font-size: 0.85rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            color: var(--accent-blue);
-            text-decoration: none;
-            font-weight: 700;
-            border-bottom: 1px solid transparent;
-        }
-       .product-link:hover { border-bottom-color: var(--accent-blue); }
-
-        /* SAFE EXIT BUTTON */
-       .safe-exit {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            background: rgba(0,0,0,0.3);
-            color: white;
-            padding: 10px 20px;
-            border-radius: 30px;
-            text-decoration: none;
-            backdrop-filter: blur(5px);
+        .nav-back {
+            font-family: var(--font-body);
             font-size: 0.8rem;
-            z-index: 100;
-            transition: background 0.2s;
+            font-weight: 500;
+            color: var(--text-muted);
+            text-decoration: none;
+            transition: color 0.2s;
         }
-       .safe-exit:hover { background: rgba(0,0,0,0.6); }
+        .nav-back:hover { color: var(--text-primary); }
+        .safe-exit {
+            font-family: var(--font-body);
+            font-size: 0.75rem;
+            font-weight: 500;
+            letter-spacing: 0.04em;
+            color: var(--text-muted);
+            text-decoration: none;
+            padding: 8px 14px;
+            border: 1px solid var(--border);
+            border-radius: 100px;
+            transition: all 0.3s ease;
+        }
+        .safe-exit:hover { color: var(--text-primary); border-color: var(--text-muted); }
 
-        /* FOOTER */
-        footer {
+        /* HERO */
+        .hero {
+            padding: 160px 24px 100px;
             text-align: center;
-            padding: 50px 0;
-            font-size: 0.9rem;
-            opacity: 0.7;
+            max-width: 680px;
+            margin: 0 auto;
+        }
+        .hero-label {
+            font-size: 0.7rem;
+            font-weight: 500;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            margin-bottom: 24px;
+            opacity: 0;
+            animation: fadeUp 1.2s var(--ease-out) 0.2s forwards;
+        }
+        .hero h1 {
+            font-family: var(--font-display);
+            font-weight: 300;
+            font-size: clamp(2rem, 5vw, 3.4rem);
+            line-height: 1.15;
+            letter-spacing: -0.02em;
+            color: var(--text-primary);
+            margin-bottom: 24px;
+            opacity: 0;
+            animation: fadeUp 1.2s var(--ease-out) 0.4s forwards;
+        }
+        .hero-sub {
+            font-size: 1.1rem;
+            font-weight: 300;
+            color: var(--text-secondary);
+            line-height: 1.8;
+            max-width: 500px;
+            margin: 0 auto;
+            opacity: 0;
+            animation: fadeUp 1.2s var(--ease-out) 0.7s forwards;
+        }
+
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* SECTIONS */
+        .section { padding: 80px 24px; max-width: 680px; margin: 0 auto; }
+        .section-full { padding: 80px 24px; }
+
+        /* SEPARATOR */
+        .sep {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 16px;
+            margin-bottom: 60px;
+        }
+        .sep-label {
+            font-size: 0.7rem;
+            font-weight: 500;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            color: var(--text-muted);
+        }
+
+        /* PROSE */
+        .prose h2 {
+            font-family: var(--font-display);
+            font-weight: 400;
+            font-size: clamp(1.5rem, 3vw, 2rem);
+            line-height: 1.3;
+            letter-spacing: -0.015em;
+            margin-bottom: 24px;
+            color: var(--text-primary);
+        }
+        .prose p {
+            font-size: 1.05rem;
+            font-weight: 300;
+            color: var(--text-secondary);
+            margin-bottom: 20px;
+            line-height: 1.8;
+        }
+        .prose p:last-child { margin-bottom: 0; }
+        .prose strong { font-weight: 500; color: var(--text-primary); }
+        .prose a {
+            color: var(--text-primary);
+            font-weight: 500;
+            text-decoration: underline;
+            text-decoration-color: var(--border);
+            text-underline-offset: 3px;
+            transition: text-decoration-color 0.2s;
+        }
+        .prose a:hover { text-decoration-color: var(--text-primary); }
+
+        /* CALLOUT */
+        .callout {
+            background: var(--warm-white);
+            border-radius: 12px;
+            padding: 28px 32px;
+            margin: 32px 0;
+        }
+        .callout p {
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+            font-weight: 300;
+            line-height: 1.8;
+            margin-bottom: 10px;
+        }
+        .callout p:last-child { margin-bottom: 0; }
+        .callout strong { font-weight: 500; color: var(--text-primary); }
+        .callout a {
+            color: var(--text-primary);
+            font-weight: 500;
+            text-decoration: underline;
+            text-decoration-color: var(--border);
+            text-underline-offset: 3px;
+            transition: text-decoration-color 0.2s;
+        }
+        .callout a:hover { text-decoration-color: var(--text-primary); }
+
+        /* DIVIDER */
+        .divider {
+            border: none;
+            border-top: 1px solid var(--border);
+            margin: 48px 0;
+        }
+
+        /* NEXT GUIDE */
+        .next-guide {
+            text-align: center;
+            padding: 80px 24px;
+            background: var(--warm-white);
+        }
+        .next-guide p { font-size: 0.9rem; color: var(--text-muted); margin-bottom: 12px; }
+        .next-guide a {
+            font-family: var(--font-display);
+            font-size: 1.3rem;
+            font-weight: 400;
+            color: var(--purple);
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+        .next-guide a:hover { color: var(--pink); }
+
+        /* CRISIS FOOTER */
+        .crisis-bar { text-align: center; padding: 48px 24px; }
+        .crisis-bar p { font-size: 0.9rem; color: var(--text-secondary); margin-bottom: 6px; }
+        .crisis-bar strong { font-weight: 600; color: var(--text-primary); }
+        .crisis-bar .disclaimer { font-size: 0.75rem; color: var(--text-muted); margin-top: 20px; }
+
+        @media (max-width: 600px) {
+            .section { padding: 60px 20px; }
+            .hero { padding: 140px 20px 72px; }
+            .callout { padding: 22px 20px; }
         }
     </style>
 </head>
 <body>
 
-    <div class="gradient-bg"></div>
-    <a href="https://weather.com" class="safe-exit">Esc / Quick Exit</a>
+    <nav class="top-nav">
+        <a href="/" class="nav-back">← Day 1</a>
+        <a href="https://weather.com" class="safe-exit">Exit</a>
+    </nav>
 
-    <div class="container">
+    <header class="hero">
+        <div class="hero-label">Resources</div>
+        <h1>What actually works.</h1>
+        <p class="hero-sub">No snake oil. Just the clinically proven treatments, suppression protocols, and symptom relief used by the community.</p>
+    </header>
 
-        <!-- HERO -->
-        <header class="hero">
-            <h1>What actually works.</h1>
-            <p class="subtitle">No snake oil. Just the clinically proven treatments, suppression protocols, and symptom relief used by the community.</p>
-        </header>
+    <!-- ANTIVIRALS -->
+    <section class="section prose">
+        <div class="sep reveal"><span class="sep-label">Antivirals</span></div>
 
-        <!-- ANTIVIRALS -->
-        <div class="content-panel">
-            <div class="section-header">Antivirals</div>
+        <h2 class="reveal">Valacyclovir is the baseline.</h2>
 
-            <p>The standard of care for HSV suppression is <strong>valacyclovir (brand name Valtrex)</strong>, taken daily as suppressive therapy. It is the most well-studied antiviral for this purpose, with a safety record spanning over two decades of widespread clinical use.</p>
+        <p class="reveal">
+            The standard of care for HSV suppression is <strong>valacyclovir</strong> — sold under the brand name Valtrex — taken daily. It is the most well-studied antiviral for this purpose, with a clinical safety record spanning over 25 years of widespread use. When your doctor or any HSV-informed clinician talks about suppression therapy, this is what they mean.
+        </p>
+        <p class="reveal">
+            The data is unambiguous: daily suppressive valacyclovir reduces asymptomatic viral shedding by <strong>70–80%</strong> and cuts overall transmission risk to uninfected partners by approximately <strong>50%</strong>. Combined with consistent condom use, annual transmission risk for a serodiscordant couple drops to roughly 1–2%. This is the protocol most infectious disease specialists recommend.
+        </p>
+        <p class="reveal">
+            The standard suppressive dose is <strong>500mg once daily</strong>. Some clinicians prescribe 1g daily for patients with more frequent recurrences or higher transmission concern. Generic valacyclovir runs roughly $15–30/month without insurance through discount programs like GoodRx. Acyclovir and famciclovir are alternatives with similar efficacy; valacyclovir is generally preferred for its once-daily dosing and superior bioavailability.
+        </p>
 
-            <p>The clinical data is clear: daily suppressive therapy with valacyclovir reduces asymptomatic viral shedding by <strong>70–80%</strong> and cuts overall transmission risk to uninfected partners by approximately <strong>50%</strong>. When combined with consistent condom use, annual transmission risk drops to the 1–2% range. This is the protocol most infectious disease specialists recommend for sexually active HSV-positive individuals in serodiscordant relationships.</p>
-
-            <p>The standard suppressive dose is <strong>500mg once daily</strong>. Some clinicians prescribe 1g once daily for patients with frequent recurrences or higher transmission concern. Both doses are available as generic valacyclovir, which costs roughly $15–30/month without insurance through most pharmacy discount programs.</p>
-
-            <p>Acyclovir (the older predecessor) and famciclovir are alternative antivirals with similar efficacy; valacyclovir is generally preferred for suppressive use because of its once-daily dosing and superior bioavailability.</p>
-
-            <div class="section-header" style="margin-top: 40px; font-size: 0.85rem;">Getting a prescription</div>
-
-            <p>For those who prefer not to discuss an HSV diagnosis in person, several telehealth platforms offer discreet consultations and same-day prescriptions sent directly to a local pharmacy or by mail. <a href="https://hellowisp.com" target="_blank" rel="noopener" style="color: var(--accent-blue); font-weight: 700;">Wisp</a> specializes specifically in sexual health and STI management and is widely recommended within the community for its straightforward intake process. <a href="https://ro.co" target="_blank" rel="noopener" style="color: var(--accent-blue); font-weight: 700;">Ro (Roman)</a> and <a href="https://www.nurx.com" target="_blank" rel="noopener" style="color: var(--accent-blue); font-weight: 700;">Nurx</a> are broader telehealth platforms that also handle HSV prescriptions with similarly discreet delivery. All three operate in most US states and accept major insurance.</p>
+        <div class="callout reveal">
+            <p><strong>Getting a prescription without an in-person visit.</strong> Several telehealth platforms handle HSV prescriptions discreetly, with same-day approval and mail delivery or local pharmacy routing. <a href="https://hellowisp.com" target="_blank" rel="noopener">Wisp</a> specializes specifically in sexual health and is the most commonly recommended within the community for its focused intake process. <a href="https://ro.co" target="_blank" rel="noopener">Ro (Roman)</a> and <a href="https://www.nurx.com" target="_blank" rel="noopener">Nurx</a> are broader platforms that also handle HSV prescriptions efficiently. All three operate in most US states and accept major insurance.</p>
         </div>
+    </section>
 
-        <!-- ACUTE MANAGEMENT -->
-        <div class="content-panel">
-            <div class="section-header">Acute Management</div>
+    <!-- ACUTE MANAGEMENT -->
+    <section class="section prose">
+        <div class="sep reveal"><span class="sep-label">Acute management</span></div>
 
-            <p>During an active flare, the priority is reducing discomfort, protecting the skin barrier, and shortening duration. The following are over-the-counter options that address those goals directly.</p>
+        <h2 class="reveal">Managing the first 72 hours.</h2>
 
-            <p><strong>5% Lidocaine ointment</strong> provides immediate localized numbing of the affected mucocutaneous tissue. Applied topically, it is the most effective OTC option for acute pain relief during an outbreak — particularly useful for lesions that make urination or walking uncomfortable. It is available without a prescription at most pharmacies. Apply a thin layer to the affected area as needed; avoid contact with eyes or mucous membranes beyond the intended site.</p>
+        <p class="reveal">
+            During an active flare, the goal is reducing discomfort, protecting the skin barrier, and shortening duration. None of these replace antivirals — but they address the immediate physical reality while your body does its work.
+        </p>
+        <p class="reveal">
+            <strong>5% Lidocaine ointment</strong> provides immediate localized numbing of the affected mucocutaneous tissue. It is the most effective over-the-counter option for acute pain during an outbreak — particularly useful when lesions make urination or movement uncomfortable. Available without a prescription at most pharmacies. Apply a thin layer to the affected area as needed.
+        </p>
+        <p class="reveal">
+            <strong>Epsom salt (magnesium sulfate) baths</strong> are a long-standing community standard. Dissolve one to two cups in a shallow warm bath and soak for 10–15 minutes, once or twice daily. The mechanism is largely osmotic — the saline environment draws fluid from active lesions, promotes drying, and reduces the risk of secondary bacterial contamination of broken skin. Use plain, unscented Epsom salt only.
+        </p>
+        <p class="reveal">
+            <strong>Zinc oxide barrier cream</strong> — the same formulation used for diaper rash — applied between soaks creates a physical barrier over healing tissue, reduces friction from clothing, and has a mild drying effect. Look for 15–40% zinc oxide concentration; avoid products with added fragrances or sensitizers. Inexpensive and widely available.
+        </p>
+    </section>
 
-            <p><strong>Epsom salt (magnesium sulfate) baths</strong> are a long-standing community standard for the first 72 hours of a flare. Dissolve one to two cups in a shallow warm bath and soak for 10–15 minutes. The mechanism is largely osmotic — the saline environment draws fluid from active lesions, promotes drying, and reduces secondary bacterial contamination of broken skin. Use unscented, additive-free Epsom salt only.</p>
+    <!-- SUPPLEMENTS -->
+    <section class="section prose">
+        <div class="sep reveal"><span class="sep-label">Supplements</span></div>
 
-            <p><strong>Zinc oxide barrier cream</strong> — the same formulation used for diaper rash — applied between soaks creates a physical barrier over healing tissue, reduces friction from clothing, and has a mild drying effect on active lesions. It is inexpensive, widely available, and has a strong safety profile. Look for formulations with 15–40% zinc oxide concentration; avoid products with added fragrances or skin sensitizers.</p>
+        <h2 class="reveal">L-Lysine and Zinc: what the data actually says.</h2>
+
+        <p class="reveal">
+            The supplement landscape for HSV is genuinely mixed. Two compounds have enough clinical and community data to be worth understanding clearly.
+        </p>
+        <p class="reveal">
+            <strong>L-Lysine</strong> is an essential amino acid that competes with arginine for cellular uptake. HSV replication is arginine-dependent, so the theoretical basis is that limiting available arginine slows viral replication. The clinical evidence is honest about its limitations: doses <strong>under 1g/day are largely ineffective</strong> in isolation — particularly without a concurrent low-arginine diet (which means reducing nuts, seeds, chocolate, and legumes). However, doses in the <strong>1–3g/day range</strong> show subjective improvement in recurrence frequency and outbreak severity for a meaningful subset of users, even without dietary changes. The effect is inconsistent and does not approach the efficacy of antivirals. That said, community adoption is high because a real portion of people report benefit, the risk profile is low, and the cost is negligible. If you want to try it, start at 1g/day and assess over 60–90 days.
+        </p>
+        <p class="reveal">
+            <strong>Zinc</strong> has a better-established role in broad immune function, and some evidence supports a modest reduction in recurrence frequency at standard supplementary doses — typically <strong>15–30mg elemental zinc daily</strong>. The evidence is not strong enough for a definitive clinical claim, but zinc appears consistently in community protocols for immune support between outbreaks. Zinc picolinate and zinc glycinate are the most bioavailable forms. Do not exceed 40mg elemental zinc daily without medical supervision, as high doses interfere with copper absorption over time.
+        </p>
+
+        <div class="callout reveal">
+            <p>Neither supplement replaces antiviral therapy. They are best understood as adjunct support — tools some people find useful for managing recurrence frequency and overall immune resilience. Start with the antiviral. Add supplements after, if you want to.</p>
         </div>
+    </section>
 
-        <!-- SUPPLEMENTS -->
-        <div class="content-panel">
-            <div class="section-header">Supplements</div>
-
-            <p>The supplement landscape for HSV is mixed at best. Two compounds — L-Lysine and Zinc — have enough clinical and community data to be worth understanding clearly.</p>
-
-            <p><strong>L-Lysine</strong> is an essential amino acid that competes with arginine for cellular uptake. HSV replication is arginine-dependent; the theoretical basis for L-Lysine supplementation is that reducing available arginine slows viral replication. The clinical evidence is genuinely mixed: studies consistently show that doses under <strong>1g/day are largely ineffective</strong> in isolation, particularly without a concurrent low-arginine diet (which means reducing nuts, seeds, chocolate, and legumes). However, doses in the <strong>1g–3g/day range</strong> have shown subjective improvement in recurrence frequency and outbreak severity in a subset of study participants, even without dietary changes. The effect is not universal and does not approach the efficacy of antivirals — but the compound is low-risk, inexpensive, and high community adoption persists because a meaningful portion of users report benefit. If trying it, start at 1g/day and assess over 60–90 days.</p>
-
-            <p><strong>Zinc</strong> has a better-established role in immune function broadly and some evidence for reducing recurrence frequency when taken at standard supplementary doses (15–30mg elemental zinc daily). The evidence is not definitive enough to make a clinical claim, but zinc is one of the more commonly cited supplements in community protocols for immune support between outbreaks. Zinc picolinate and zinc glycinate are the most bioavailable forms. Avoid exceeding 40mg elemental zinc daily without medical supervision, as high-dose zinc supplementation can interfere with copper absorption over time.</p>
-
-            <p>Neither supplement replaces antiviral therapy. They are best understood as adjunct support — tools that some people find useful in managing recurrence frequency and overall immune resilience, not as primary treatment.</p>
-        </div>
-
-        <footer>
-            <p>This is educational content, not medical advice. For diagnosis and treatment, consult a healthcare provider.</p>
-        </footer>
-
+    <div class="next-guide reveal">
+        <p>Back to the beginning</p>
+        <a href="/">Day 1 — You're going to be okay →</a>
     </div>
 
+    <footer class="crisis-bar">
+        <p><strong>Need to talk to someone right now?</strong></p>
+        <p>Text <strong>HOME</strong> to <strong>741741</strong> — free, confidential, 24/7.</p>
+        <p>Call <strong>988</strong> for the Suicide & Crisis Lifeline. Your pain is valid.</p>
+        <p class="disclaimer">This is educational content, not medical advice. For diagnosis and treatment, consult a healthcare provider.</p>
+    </footer>
+
+    <script>
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) entry.target.classList.add('visible');
+            });
+        }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+
+        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+        document.addEventListener('keyup', (e) => {
+            if (e.key === 'Escape') window.location.href = 'https://weather.com';
+        });
+    </script>
 </body>
 </html>
